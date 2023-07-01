@@ -470,8 +470,8 @@ class Wire:
 
     def face(self):
         """
-        Create a 2D face from the Wire object.
-        :return a Solid object of the 2D face
+        Create a face from the Wire object.
+        :return a Solid object
         """
         return Solid(BRepBuilderAPI_MakeFace(self._shape).Shape())
 
