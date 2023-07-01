@@ -186,7 +186,7 @@ class Wire:
         return self.add(solid)
 
     def add(self, wire):
-        """add this wire to another Wire object.
+        """Add this wire to another Wire object.
         :param wire Wire object to add
         :return a new Wire object
         """

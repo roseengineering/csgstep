@@ -257,7 +257,7 @@ Return the TopoDS\_Shape object that this Wire object wraps.
 Redirects call to the add method.
 
 <code>Wire.<b>add</b>(self, wire)</code>  
-add this wire to another Wire object.  
+Add this wire to another Wire object.  
 **wire** Wire object to add  
 **returns** a new Wire object  
 
