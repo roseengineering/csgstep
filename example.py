@@ -3,7 +3,7 @@
 from OCC.Display.SimpleGui import init_display
 from csgstep import cube, sphere
 
-solid = cube(center=True) - sphere(.65)
+solid = cube(center=True).fillet(.05) - sphere(.65)
 solid.write_stl('cubeminus.stl')    
 solid.write_step('cubeminus.stp')    
 
