@@ -470,7 +470,7 @@ class Wire:
 
     def face(self):
         """
-        Create a solid from the Wire object.
+        Create a solid from the Wire object.  Only solids can be extruded.
         :return a Solid object
         """
         return Solid(BRepBuilderAPI_MakeFace(self._shape).Shape())
