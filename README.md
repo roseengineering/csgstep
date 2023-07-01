@@ -53,13 +53,6 @@ I also added a new extrude method called spline_extrude.  It takes a list of poi
 
 # csgstep API
 
-<code>csgstep.<b>arc</b>(pt1, pt2, pt3)</code>  
-Create an arc of circle defined by three points  
-**pt1** 3D start point  
-**pt2** 3D point on arc of circle  
-**pt3** 3D end point  
-**returns** a Solid object of the 2D edge  
-
 <code>csgstep.<b>circle</b>(r=1)</code>  
 Create circle of given radius centered at the origin in the XY plane.  
 **r** the radius of the cylinder  
@@ -87,12 +80,6 @@ Load the given STEP File.
 Create polygon of from 2D points in the XY plane.  
 **points** the points of the polygon in path order  
 **returns** a Solid object of the 2D polygon  
-
-<code>csgstep.<b>segment</b>(pt1, pt2)</code>  
-Create a line segment between two points  
-**pt1** 3D start point  
-**pt2** 3D end point  
-**returns** a Solid object of the 2D edge  
 
 <code>csgstep.<b>sphere</b>(r=1)</code>  
 Create sphere of given radius centered at the origin.  
