@@ -338,7 +338,7 @@ class Solid:
         trns = gp_Trsf()
         axis = gp_Ax1(gp_Pnt(0, 0, 0), gp_Dir(*v))
         trns.SetMirror(axis)
-        self._shape = Solid(BRepBuilderAPI_Transform(self._shape, trns).Shape())
+        self._shape = BRepBuilderAPI_Transform(self._shape, trns).Shape()
         return self
 
     def translate(self, v):
