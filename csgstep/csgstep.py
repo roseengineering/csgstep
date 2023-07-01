@@ -1,5 +1,5 @@
 
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 
 import numpy as np
 
@@ -138,13 +138,13 @@ def square(s=1, center=False):
     return polygon(points - p)
 
 
-def edge(pt1, pt2):
-    """Create a segment between two points
+def segment(pt1, pt2):
+    """Create a line segment between two points
     :param pt1 3D start point
     :param pt2 3D end point
     :return a Solid object of the 2D edge
     """
-    return Shape(BRepBuilderAPI_MakeEdge(gp_Pnt(*pt1), gp_Pnt(*pt2)))
+    return Solid(BRepBuilderAPI_MakeEdge(gp_Pnt(*pt1), gp_Pnt(*pt2)).Shape())
 
 
 def arc(pt1, pt2, pt3):
@@ -154,9 +154,9 @@ def arc(pt1, pt2, pt3):
     :param pt3 3D end point
     :return a Solid object of the 2D edge
     """
-    seg = GC_MakeArcOfCircle(gp_Pnt(*pt1), gp_Pnt(*pt2), gp_Pnt(*pt3))
-    assert seg.IsDone()
-    return Solid(BRepBuilderAPI_MakeEdge(seg))
+    segment = GC_MakeArcOfCircle(gp_Pnt(*pt1), gp_Pnt(*pt2), gp_Pnt(*pt3))
+    assert segment.IsDone()
+    return Solid(BRepBuilderAPI_MakeEdge(segment.Value()).Shape())
 
 
 class Solid:
@@ -173,12 +173,6 @@ class Solid:
         """  
         return self._shape
 
-    def copy(self):
-        """Instantiate a new Solid object with the same TopoDS_Shape object this object wraps.
-        :return a copy of this object
-        """  
-        return Solid(self._shape)
-
     def write_step(self, filename, schema="AP203"):
         """Write this object to a STEP file.
         :param filename name of STEP output file
@@ -187,7 +181,7 @@ class Solid:
         step_writer = STEPControl_Writer()
         Interface_Static.SetCVal("write.step.schema", schema) 
         # use highest representation
-        step_writer.Transfer(self._shape, STEPControl_AsIs) 
+        step_writer.Transfer(self.shape, STEPControl_AsIs) 
         status = step_writer.Write(filename)
         if status != IFSelect_RetDone:
             raise ValueError('STEP write failed.')
@@ -200,13 +194,13 @@ class Solid:
         :param linear_deflection linear deflection value
         :param angular_deflection angular deflection value
         """
-        mesh = BRepMesh_IncrementalMesh(self._shape, 
+        mesh = BRepMesh_IncrementalMesh(self.shape, 
             linear_deflection, False, angular_deflection)
         mesh.Perform()
         assert mesh.IsDone()
         stl_exporter = StlAPI_Writer()
         stl_exporter.SetASCIIMode(mode == 'ascii')
-        status = stl_exporter.Write(self._shape, filename)
+        status = stl_exporter.Write(self.shape, filename)
         if not status:
             raise ValueError('STL write failed.')
 
@@ -229,61 +223,61 @@ class Solid:
 
     def mirrorX(self): 
         """Mirror this object about the X axis
-        :return this object
+        :return a new Solid object
         """
         return self.mirror(UX)
 
     def mirrorY(self): 
         """Mirror this object about the Y axis
-        :return this object
+        :return a new Solid object
         """
         return self.mirror(UY)
 
     def mirrorZ(self): 
         """Mirror this object about the Z axis
-        :return this object
+        :return a new Solid object
         """
         return self.mirror(UZ)
 
     def rotateX(self, a): 
         """Rotate this object around the X axis by given angle.
         :param a the angle to rotate by
-        :return this object
+        :return a new Solid object
         """
         return self.rotate(a, UX)
 
     def rotateY(self, a): 
         """Rotate this object around the Y axis by given angle.
         :param a the angle to rotate by
-        :return this object
+        :return a new Solid object
         """
         return self.rotate(a, UY)
 
     def rotateZ(self, a): 
         """Rotate this object around the Z axis by given angle.
         :param a the angle to rotate by
-        :return this object
+        :return a new Solid object
         """
         return self.rotate(a, UZ)
 
     def translateX(self, v): 
         """Translate this object in the X direction by given amount.
         :param v the amount to translate object by
-        :return this object
+        :return a new Solid object
         """
         return self.translate(v * np.array(UX))
 
     def translateY(self, v): 
         """Translate this object in the Y direction by given amount.
         :param v the amount to translate object by
-        :return this object
+        :return a new Solid object
         """
         return self.translate(v * np.array(UY))
 
     def translateZ(self, v): 
         """Translate this object in the Z direction by given amount.
         :param v the amount to translate object by
-        :return this object
+        :return a new Solid object
         """
         return self.translate(v * np.array(UZ))
 
@@ -293,80 +287,73 @@ class Solid:
         """Union this object with another Solid object.
         The method uses BOPAlgo_MakerVolume() to perform the union.
         :param solid Solid object to merge with
-        :return this object
-        """  
+        :return a new Solid object
+        """
         shapes = TopTools_ListOfShape()
-        if self._shape is not None:
-            shapes.Append(self._shape)
+        if self.shape is not None:
+            shapes.Append(self.shape)
         shapes.Append(solid.shape)
         mv = BOPAlgo_MakerVolume()
         mv.SetArguments(shapes)
         mv.Perform()
-        self._shape = mv.Shape()
-        return self
+        return Solid(mv.Shape())
 
     def intersection(self, solid):
         """Intersect this object with another Solid object.
         :param solid Solid object to intersect with
-        :return this object
+        :return a new Solid object
         """
-        self._shape = BRepAlgoAPI_Common(self._shape, solid.shape).Shape()
-        return self
+        return Solid(BRepAlgoAPI_Common(self.shape, solid.shape).Shape())
 
     def difference(self, solid):
         """Cut another Solid object from this object.
         :param solid Solid object to cut with
-        :return this object
+        :return a new Solid object
         """
-        self._shape = BRepAlgoAPI_Cut(self._shape, solid.shape).Shape()
-        return self
+        return Solid(BRepAlgoAPI_Cut(self.shape, solid.shape).Shape())
 
     def fuse(self, solid):
         """Fuse this object with another Solid object.
         The method uses BRepAlgoAPI_Fuse() to perform the union.
         :param solid Solid object to fuse together with
-        :return this object
+        :return a new Solid object
         """
-        self._shape = BRepAlgoAPI_Fuse(self._shape, solid.shape).Shape()
-        return self
+        return Solid(BRepAlgoAPI_Fuse(self.shape, solid.shape).Shape())
 
     def mirror(self, v):
         """Mirror this object about the given axis.
         :param v 3D vector to mirror object about
-        :return this object
+        :return a new Solid object
         """
         trns = gp_Trsf()
         axis = gp_Ax1(gp_Pnt(0, 0, 0), gp_Dir(*v))
         trns.SetMirror(axis)
-        self._shape = BRepBuilderAPI_Transform(self._shape, trns).Shape()
-        return self
+        return Solid(BRepBuilderAPI_Transform(self.shape, trns).Shape())
 
     def translate(self, v):
         """Translate this object by the given 3D vector.
         :param v 3D vector to translate object with
-        :return this object
+        :return a new Solid object
         """
         trns = gp_Trsf()
         trns.SetTranslation(gp_Vec(*v))
-        self._shape = BRepBuilderAPI_Transform(self._shape, trns).Shape()
-        return self
+        return Solid(BRepBuilderAPI_Transform(self.shape, trns).Shape())
 
     def rotate(self, a, v):
         """Rotate this object around the given 3D vector by the given angle. 
         :param a angle to rotate object
         :param v 3D vector to rotate object around
-        :return this object
+        :return a new Solid object
         """
         trns = gp_Trsf()
         axis = gp_Ax1(gp_Pnt(0, 0, 0), gp_Dir(*v))
         trns.SetRotation(axis, a);
-        self._shape = BRepBuilderAPI_Transform(self._shape, trns).Shape()
-        return self
+        return Solid(BRepBuilderAPI_Transform(self.shape, trns).Shape())
 
     def scale(self, v):
         """Scale this object by the given factor.
         :param v the factor to scale, given as a real or 3D vector
-        :return this object
+        :return a new Solid object
         """
         v = v * np.ones(3)
         gtrns = gp_GTrsf()
@@ -374,35 +361,30 @@ class Solid:
             v[0], 0, 0,
             0, v[1], 0,
             0, 0, v[2]))
-        self._shape = BRepBuilderAPI_GTransform(self._shape, gtrns).Shape()
-        return self
+        return Solid(BRepBuilderAPI_GTransform(self.shape, gtrns).Shape())
 
     def linear_extrude(self, v):
         """Linear extrude this object in the Z direction by given amount.
         :param v the amount to linear extrude this object by
-        :return this object
+        :return a new Solid object
         """
         v = v * np.array(UZ)
-        self._shape = BRepPrimAPI_MakePrism(self._shape, gp_Vec(*v)).Shape()
-        return self
+        return Solid(BRepPrimAPI_MakePrism(self.shape, gp_Vec(*v)).Shape())
 
     def rotate_extrude(self, a=None):
         """Rotate extrude this object around the Z axis by given angle.
         The object will be rotated around the X axis by 90 degrees before being extruded.
         :param a the angle to rotate extrude this object by, defaults to 360 degrees
-        :return this object
+        :return a new Solid object
         """
-        self.rotateX(np.pi / 2)
-        if a is None:
-            self._shape = BRepPrimAPI_MakeRevol(self._shape, gp_OZ()).Shape()
-        else:
-            self._shape = BRepPrimAPI_MakeRevol(self._shape, gp_OZ(), a).Shape()
-        return self
+        solid = self.rotateX(np.pi / 2)
+        args = [] if a is None else [a]
+        return Solid(BRepPrimAPI_MakeRevol(solid.shape, gp_OZ(), *args).Shape())
 
     def spline_extrude(self, points):
         """Spline extrude this object along a cubic spline given by 3D points.
         :param points the 3D points to create the cubic spline from 
-        :return this object
+        :return a new Solid object
         """
         data = TColgp_Array1OfPnt(1, len(points))
         for i, p in enumerate(points):
@@ -410,9 +392,8 @@ class Solid:
         spline = GeomAPI_PointsToBSpline(data, 3, 3).Curve()
         edge = BRepBuilderAPI_MakeEdge(spline).Edge()
         wire = BRepBuilderAPI_MakeWire(edge).Wire()
-        brep = BRepOffsetAPI_MakePipe(wire, self._shape)
-        self._shape = brep.Shape()
-        return self
+        brep = BRepOffsetAPI_MakePipe(wire, self.shape)
+        return Solid(brep.Shape())
 
     def helix_extrude(self, r, h, pitch, center=False):
         """Helix extrude this object by a given radius, height and pitch.
@@ -420,10 +401,10 @@ class Solid:
         :param height the height of the helix
         :param pitch the pitch of the helix
         :param center if true center the helix on the z-axis, otherwise base is at the origin
-        :return this object
+        :return a new Solid object
         """
         theta = np.arctan(pitch / (TAU * r))
-        self.rotateX(np.pi / 2 + theta)
+        face = self.rotateX(np.pi / 2 + theta)
         twist = TAU * h / pitch
         step = TAU / 40
         solid = Solid()
@@ -431,13 +412,10 @@ class Solid:
             u2 = min(twist, u1 + TAU)
             u = np.linspace(u1, u2, int(np.ceil(u2 - u1) / step + 1))
             points = np.array([ r * np.cos(u), r * np.sin(u), u / TAU * pitch ]).T
-            solid += Solid(self._shape) \
-                .spline_extrude(points - points[0]) \
-                .translateZ(u1 / TAU * pitch)
-        solid.translateX(r)
+            solid += face.spline_extrude(points - points[0]).translateZ(u1 / TAU * pitch)
+        solid = solid.translateX(r)
         if center:
-            solid.translateZ(-h / 2)
-        self._shape = solid.shape
-        return self
+            solid = solid.translateZ(-h / 2)
+        return solid
 
 

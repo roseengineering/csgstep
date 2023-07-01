@@ -76,7 +76,7 @@ Create a helix:
 from csgstep import circle
 pitch = .3
 solid = circle(.1)
-solid.helix_extrude(r=8, h=3.1 * pitch, pitch=pitch, center=True)
+solid = solid.helix_extrude(r=8, h=3.1 * pitch, pitch=pitch, center=True)
 solid.write_stl('helix.stl')    
 solid.write_step('helix.stp')    
 ```
@@ -98,7 +98,10 @@ To install csgstep run "pip install ." in this directory, or the equivalent.  It
 
 ## Notes
 
-The rotate method is different from the OpenSCAD rotate method.  The first argument is the angle to rotate and the second argument is the vector to rotate around.
+All methods functions (not properties) of Solid return a new Solid object.  So remember to always 
+assign the result of a method, otherwise it will be lost.
+
+The rotate method here is different from the OpenSCAD rotate method.  The first argument is the angle to rotate and the second argument is the vector to rotate around.
 
 I also added a new extrude method called spline_extrude.  It takes a list of points as its only argument.  These points are converted into a cubic spline which is then used to extrude a 2D solid.  An example of spline_extrude is the helix_extrude method which creates a helix from a 2D solid.
 
