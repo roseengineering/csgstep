@@ -20,6 +20,7 @@ solid = segment(p1, p2) + \
         segment(p4, p5)
 solid += solid.mirror([1,0,0])
 solid = solid.face().linear_extrude(height)
+solid = solid.fillet(thickness / 12)
 solid += cylinder(r=neck_radius, h=neck_height).translateZ(height)
 
 display, start_display, add_menu, add_function_to_menu = init_display()

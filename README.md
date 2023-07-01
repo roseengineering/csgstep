@@ -245,6 +245,11 @@ Helix extrude this 2D face by a given radius, height and pitch.
 **center** if true center the helix on the z-axis, otherwise base is at the origin  
 **returns** a new Solid object  
 
+<code>Solid.<b>fillet</b>(self, r)</code>  
+Fillet edges of the solid by the given radius.  
+**radius** the radius to fillet edges by  
+**returns** a new Solid object  
+
 <code>class csgstep.<b>Wire</b>(self, shape=None)</code>  
 Instantiate Wire class with a TopoDS\_Shape object.  
 **shape** the TopoDS\_Shape object to wrap the instantiated class around  

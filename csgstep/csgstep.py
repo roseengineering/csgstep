@@ -23,6 +23,13 @@ from OCC.Core.BRepBuilderAPI import (
      BRepBuilderAPI_MakePolygon, BRepBuilderAPI_MakeFace,
      BRepBuilderAPI_MakeEdge, BRepBuilderAPI_MakeWire)
 
+# fillet
+# https://dev.opencascade.org/doc/refman/html/package_brepfilletapi.html
+from OCC.Core.BRepFilletAPI import BRepFilletAPI_MakeFillet
+from OCC.Core.TopExp import TopExp_Explorer
+from OCC.Core.TopAbs import TopAbs_EDGE
+
+# edges
 # https://dev.opencascade.org/doc/refman/html/package_gc.html
 from OCC.Core.GC import GC_MakeArcOfCircle
 
@@ -465,5 +472,17 @@ class Solid:
         if center:
             solid = solid.translateZ(-h / 2)
         return solid
+
+    def fillet(self, r):
+        """Fillet edges of the solid by the given radius.
+        :param radius the radius to fillet edges by
+        :return a new Solid object
+        """
+        fillet = BRepFilletAPI_MakeFillet(self._shape)
+        explorer = TopExp_Explorer(self._shape, TopAbs_EDGE)
+        while explorer.More():
+            fillet.Add(r, explorer.Current())
+            explorer.Next()
+        return Solid(fillet.Shape())
 
 
