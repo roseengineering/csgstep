@@ -97,7 +97,7 @@ def cylinder(r=1, h=1, center=False):
 def circle(r=1): 
     """Create circle of given radius centered at the origin in the XY plane.
     :param r the radius of the cylinder
-    :return a 2D Solid object of the circle
+    :return a Solid object of the 2D circle
     """
     circ = gp_Circ(gp_XOY(), r)
     edge = BRepBuilderAPI_MakeEdge(circ).Edge()
@@ -108,7 +108,7 @@ def circle(r=1):
 def polygon(points):
     """Create polygon of from 2D points in the XY plane.
     :param points the points of the polygon in path order
-    :return a 2D Solid object of the polygon
+    :return a Solid object of the 2D polygon
     """
     poly = BRepBuilderAPI_MakePolygon()
     for x, y in points:
@@ -122,7 +122,7 @@ def square(s=1, center=False):
     """Create square of given size in the XY plane.
     :param s the length of the sides of the square as a real or 2D vector
     :param center if true center the square at the origin, otherwise one edge is at the origin
-    :return a 2D Solid object of the square
+    :return a Solid object of the 2D square
     """
     s = s * np.ones(2)
     p = s / 2 if center else np.zeros(2)
@@ -319,7 +319,7 @@ class Solid:
         return self
 
     def linear_extrude(self, v):
-        """Linear extrude this 2D object in the Z direction by given amount.
+        """Linear extrude this object in the Z direction by given amount.
         :param v the amount to linear extrude this object by
         :return this object
         """
@@ -328,8 +328,8 @@ class Solid:
         return self
 
     def rotate_extrude(self, a=None):
-        """Rotate extrude this 2D object around the Z axis by given angle.
-        The 2D object will be rotated around the X axis by 90 degrees before being extruded.
+        """Rotate extrude this object around the Z axis by given angle.
+        The object will be rotated around the X axis by 90 degrees before being extruded.
         :param a the angle to rotate extrude this object by, defaults to 360 degrees
         :return this object
         """
@@ -341,7 +341,7 @@ class Solid:
         return self
 
     def spline_extrude(self, points):
-        """Spline extrude this 2D object along a cubic spline given by 3D points.
+        """Spline extrude this object along a cubic spline given by 3D points.
         :param points the 3D points to create the cubic spline from 
         :return this object
         """
@@ -356,7 +356,7 @@ class Solid:
         return self
 
     def helix_extrude(self, r, h, pitch, center=False):
-        """Helix extrude this 2D object by a given radius, height and pitch.
+        """Helix extrude this object by a given radius, height and pitch.
         :param radius the radius of the helix
         :param height the height of the helix
         :param pitch the pitch of the helix

@@ -53,7 +53,7 @@ I also added a new extrude method called spline_extrude.  It takes a list of poi
 <code>csgstep.<b>circle</b>(r=1)</code>  
 Create circle of given radius centered at the origin in the XY plane.  
 **r** the radius of the cylinder  
-**returns** a 2D Solid object of the circle  
+**returns** a Solid object of the 2D circle  
 
 <code>csgstep.<b>cube</b>(s=1, center=False)</code>  
 Create cube of given size in the z-axis.  
@@ -76,7 +76,7 @@ Load the given STEP File.
 <code>csgstep.<b>polygon</b>(points)</code>  
 Create polygon of from 2D points in the XY plane.  
 **points** the points of the polygon in path order  
-**returns** a 2D Solid object of the polygon  
+**returns** a Solid object of the 2D polygon  
 
 <code>csgstep.<b>sphere</b>(r=1)</code>  
 Create sphere of given radius centered at the origin.  
@@ -87,7 +87,7 @@ Create sphere of given radius centered at the origin.
 Create square of given size in the XY plane.  
 **s** the length of the sides of the square as a real or 2D vector  
 **center** if true center the square at the origin, otherwise one edge is at the origin  
-**returns** a 2D Solid object of the square  
+**returns** a Solid object of the 2D square  
 
 <code>class csgstep.<b>Solid</b>(self, shape=None)</code>  
 Instantiate Solid class with a TopoDS\_Shape object.  
@@ -191,23 +191,23 @@ Scale this object by the given factor.
 **returns** this object  
 
 <code>Solid.<b>linear\_extrude</b>(self, v)</code>  
-Linear extrude this 2D object in the Z direction by given amount.  
+Linear extrude this object in the Z direction by given amount.  
 **v** the amount to linear extrude this object by  
 **returns** this object  
 
 <code>Solid.<b>rotate\_extrude</b>(self, a=None)</code>  
-Rotate extrude this 2D object around the Z axis by given angle.
-The 2D object will be rotated around the X axis by 90 degrees before being extruded.  
+Rotate extrude this object around the Z axis by given angle.
+The object will be rotated around the X axis by 90 degrees before being extruded.  
 **a** the angle to rotate extrude this object by, defaults to 360 degrees  
 **returns** this object  
 
 <code>Solid.<b>spline\_extrude</b>(self, points)</code>  
-Spline extrude this 2D object along a cubic spline given by 3D points.  
+Spline extrude this object along a cubic spline given by 3D points.  
 **points** the 3D points to create the cubic spline from   
 **returns** this object  
 
 <code>Solid.<b>helix\_extrude</b>(self, r, h, pitch, center=False)</code>  
-Helix extrude this 2D object by a given radius, height and pitch.  
+Helix extrude this object by a given radius, height and pitch.  
 **radius** the radius of the helix  
 **height** the height of the helix  
 **pitch** the pitch of the helix  
