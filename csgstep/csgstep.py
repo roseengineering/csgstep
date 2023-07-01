@@ -119,7 +119,7 @@ def circle(r=1):
 
 
 def polygon(points):
-    """Create a polygon of from 2D points in the XY plane.
+    """Create a polygon from 2D points in the XY plane.
     :param points the points of the polygon in path order
     :return a Solid object of the 2D face
     """

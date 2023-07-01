@@ -84,7 +84,7 @@ Load the given STEP File.
 **returns** a Solid object of the 3D shape  
 
 <code>csgstep.<b>polygon</b>(points)</code>  
-Create a polygon of from 2D points in the XY plane.  
+Create a polygon from 2D points in the XY plane.  
 **points** the points of the polygon in path order  
 **returns** a Solid object of the 2D face  
 
