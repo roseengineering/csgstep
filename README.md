@@ -60,9 +60,9 @@ Create a circle of given radius centered at the origin in the XY plane.
 
 <code>csgstep.<b>circular\_arc</b>(pt1, pt2, pt3)</code>  
 Create an arc of circle defined by three points.  
-**pt1** 3D start point  
-**pt2** 3D point on arc of circle  
-**pt3** 3D end point  
+**pt1** the 3D start point  
+**pt2** the 3D point on arc of circle  
+**pt3** the 3D end point  
 **returns** a Wire object  
 
 <code>csgstep.<b>cube</b>(s=1, center=False)</code>  
@@ -90,8 +90,8 @@ Create a polygon from 2D points in the XY plane.
 
 <code>csgstep.<b>segment</b>(pt1, pt2)</code>  
 Create a line segment between two points.  
-**pt1** 3D start point  
-**pt2** 3D end point  
+**pt1** the 3D start point  
+**pt2** the 3D end point  
 **returns** a Wire object  
 
 <code>csgstep.<b>sphere</b>(r=1)</code>  
@@ -195,18 +195,18 @@ Cut another solid from this Solid object.
 
 <code>Solid.<b>mirror</b>(self, v)</code>  
 Mirror this solid about the given axis.  
-**v** 3D vector to mirror object about  
+**v** the 3D vector to mirror object about  
 **returns** a new Solid object  
 
 <code>Solid.<b>translate</b>(self, v)</code>  
 Translate this solid by the given 3D vector.  
-**v** 3D vector to translate object with  
+**v** the 3D vector to translate object with  
 **returns** a new Solid object  
 
 <code>Solid.<b>rotate</b>(self, a, v)</code>  
 Rotate this solid around the given 3D vector by the given angle.  
 **a** angle to rotate object  
-**v** 3D vector to rotate object around  
+**v** the 3D vector to rotate object around  
 **returns** a new Solid object  
 
 <code>Solid.<b>scale</b>(self, v)</code>  
@@ -263,7 +263,7 @@ Add this wire to another Wire object.
 
 <code>Wire.<b>mirror</b>(self, v)</code>  
 Mirror this wire about the given axis.  
-**v** 3D vector to mirror wire about  
+**v** the 3D vector to mirror wire about  
 **returns** a new Wire object  
 
 <code>Wire.<b>face</b>(self)</code>  

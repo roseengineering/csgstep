@@ -300,7 +300,7 @@ class Solid:
 
     def mirror(self, v):
         """Mirror this solid about the given axis.
-        :param v 3D vector to mirror object about
+        :param v the 3D vector to mirror object about
         :return a new Solid object
         """
         trns = gp_Trsf()
@@ -310,7 +310,7 @@ class Solid:
 
     def translate(self, v):
         """Translate this solid by the given 3D vector.
-        :param v 3D vector to translate object with
+        :param v the 3D vector to translate object with
         :return a new Solid object
         """
         trns = gp_Trsf()
@@ -320,7 +320,7 @@ class Solid:
     def rotate(self, a, v):
         """Rotate this solid around the given 3D vector by the given angle. 
         :param a angle to rotate object
-        :param v 3D vector to rotate object around
+        :param v the 3D vector to rotate object around
         :return a new Solid object
         """
         trns = gp_Trsf()
@@ -411,8 +411,8 @@ class Solid:
 
 def segment(pt1, pt2):
     """Create a line segment between two points.
-    :param pt1 3D start point
-    :param pt2 3D end point
+    :param pt1 the 3D start point
+    :param pt2 the 3D end point
     :return a Wire object
     """
     return Wire(BRepBuilderAPI_MakeEdge(gp_Pnt(*pt1), gp_Pnt(*pt2)).Shape())
@@ -420,9 +420,9 @@ def segment(pt1, pt2):
 
 def circular_arc(pt1, pt2, pt3):
     """Create an arc of circle defined by three points.
-    :param pt1 3D start point
-    :param pt2 3D point on arc of circle
-    :param pt3 3D end point
+    :param pt1 the 3D start point
+    :param pt2 the 3D point on arc of circle
+    :param pt3 the 3D end point
     :return a Wire object
     """
     seg = GC_MakeArcOfCircle(gp_Pnt(*pt1), gp_Pnt(*pt2), gp_Pnt(*pt3))
@@ -462,7 +462,7 @@ class Wire:
 
     def mirror(self, v):
         """Mirror this wire about the given axis.
-        :param v 3D vector to mirror wire about
+        :param v the 3D vector to mirror wire about
         :return a new Wire object
         """
         trns = gp_Trsf()
