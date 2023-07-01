@@ -95,6 +95,14 @@ Instantiate Solid class with a TopoDS\_Shape object.
 
 Instances of the <code>csgstep.<b>Solid</b></code> class have the following methods:   
 
+<code>Solid.<b>shape</b></code>
+Return the TopoDS\_Shape object that this object wraps.  
+**returns** the underlying TopoDS\_Shape object  
+
+<code>Solid.<b>copy</b>(self)</code>  
+Instantiate a new Solid object with the same TopoDS\_Shape object this object wraps.  
+**returns** a copy of this object  
+
 <code>Solid.<b>write\_step</b>(self, filename, schema='AP203')</code>  
 Write this object to a STEP file.  
 **filename** name of STEP output file  
@@ -115,6 +123,18 @@ Redirects call to the intersection method.
 
 <code>Solid.<b>\_\_sub\_\_</b>(self, solid)</code>  
 Redirects call to the difference method.
+
+<code>Solid.<b>mirrorX</b>(self)</code>  
+Mirror this object about the X axis  
+**returns** this object  
+
+<code>Solid.<b>mirrorY</b>(self)</code>  
+Mirror this object about the Y axis  
+**returns** this object  
+
+<code>Solid.<b>mirrorZ</b>(self)</code>  
+Mirror this object about the Z axis  
+**returns** this object  
 
 <code>Solid.<b>rotateX</b>(self, a)</code>  
 Rotate this object around the X axis by given angle.  
@@ -146,22 +166,10 @@ Translate this object in the Z direction by given amount.
 **v** the amount to translate object by  
 **returns** this object  
 
-<code>Solid.<b>shape</b></code>
-Return the TopoDS\_Shape object that this object wraps.  
-**returns** the underlying TopoDS\_Shape object  
-
-<code>Solid.<b>copy</b>(self)</code>  
-Instantiate a new Solid object with the same TopoDS\_Shape object this object wraps.  
-**returns** a copy of this object  
-
 <code>Solid.<b>union</b>(self, solid)</code>  
-Union this object with another Solid object.  
+Union this object with another Solid object.
+The method uses BOPAlgo\_MakerVolume() to perform the union.  
 **solid** Solid object to merge with  
-**returns** this object  
-
-<code>Solid.<b>fuse</b>(self, solid)</code>  
-Fuse this object with another Solid object.  
-**solid** Solid object to fuse together with  
 **returns** this object  
 
 <code>Solid.<b>intersection</b>(self, solid)</code>  
@@ -172,6 +180,17 @@ Intersect this object with another Solid object.
 <code>Solid.<b>difference</b>(self, solid)</code>  
 Cut another Solid object from this object.  
 **solid** Solid object to cut with  
+**returns** this object  
+
+<code>Solid.<b>fuse</b>(self, solid)</code>  
+Fuse this object with another Solid object.
+The method uses BRepAlgoAPI\_Fuse() to perform the union.  
+**solid** Solid object to fuse together with  
+**returns** this object  
+
+<code>Solid.<b>mirror</b>(self, v)</code>  
+Mirror this object about the given axis.  
+**v** 3D vector to mirror object about  
 **returns** this object  
 
 <code>Solid.<b>translate</b>(self, v)</code>  
