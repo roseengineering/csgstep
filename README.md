@@ -56,7 +56,7 @@ I also added a new extrude method called spline_extrude.  It takes a list of poi
 <code>csgstep.<b>load\_step</b>(filename)</code>  
 Load the given STEP File.  
 **filename** the path of the STEP file  
-**returns** a Solid object of the 3D shape  
+**returns** a Solid object  
 
 <code>csgstep.<b>cube</b>(s=1, center=False)</code>  
 Create a cube of given size in the z-axis.  

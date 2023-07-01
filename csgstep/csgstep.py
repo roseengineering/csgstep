@@ -65,7 +65,7 @@ UZ  = (0.,0.,1.)
 def load_step(filename):
     """Load the given STEP File.
     :param filename the path of the STEP file
-    :return a Solid object of the 3D shape
+    :return a Solid object
     """
     step_reader = STEPControl_Reader()
     status = step_reader.ReadFile(filename)
