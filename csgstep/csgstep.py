@@ -154,7 +154,7 @@ class Solid:
 
     @property
     def shape(self):
-        """Return the TopoDS_Shape object that this Solid object wraps.
+        """Return the TopoDS_Shape object this Solid object wraps.
         :return the underlying TopoDS_Shape object 
         """  
         return self._shape
@@ -437,7 +437,7 @@ class Wire:
 
     @property
     def shape(self):
-        """Return the TopoDS_Shape object that this Wire object wraps.
+        """Return the TopoDS_Shape object this Wire object wraps.
         :return the underlying TopoDS_Shape object 
         """
         return self._shape

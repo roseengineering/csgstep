@@ -99,7 +99,7 @@ Instantiate Solid class with a TopoDS\_Shape object.
 Instances of the <code>csgstep.<b>Solid</b></code> class have the following methods:   
 
 <code>Solid.<b>shape</b></code>
-Return the TopoDS\_Shape object that this Solid object wraps.  
+Return the TopoDS\_Shape object this Solid object wraps.  
 **returns** the underlying TopoDS\_Shape object  
 
 <code>Solid.<b>write\_step</b>(self, filename, schema='AP203')</code>  
@@ -250,7 +250,7 @@ Instantiate Wire class with a TopoDS\_Shape object.
 Instances of the <code>csgstep.<b>Wire</b></code> class have the following methods:   
 
 <code>Wire.<b>shape</b></code>
-Return the TopoDS\_Shape object that this Wire object wraps.  
+Return the TopoDS\_Shape object this Wire object wraps.  
 **returns** the underlying TopoDS\_Shape object  
 
 <code>Wire.<b>\_\_add\_\_</b>(self, solid)</code>  
