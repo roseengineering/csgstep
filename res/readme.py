@@ -21,7 +21,7 @@ def generate_docs(package, data=None, classname=None, text=[]):
             generate_docs(package, fn.__dict__, k, text)
         elif fn.__doc__:
             if isinstance(fn, property):
-                text.append(f'<code>{package}.<b>{k}</b></code>') # property
+                text.append(f'<code>{classname}.<b>{k}</b></code>') # property
             else:
                 signature = inspect.signature(fn)
                 if k == '__init__':  # constructor

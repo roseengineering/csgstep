@@ -146,7 +146,7 @@ Translate this object in the Z direction by given amount.
 **v** the amount to translate object by  
 **returns** this object  
 
-<code>csgstep.<b>shape</b></code>
+<code>Solid.<b>shape</b></code>
 Return the TopoDS\_Shape object that this object wraps.  
 **returns** the underlying TopoDS\_Shape object  
 
