@@ -208,19 +208,19 @@ class Solid:
         return self.difference(solid)
 
     def mirrorX(self): 
-        """Mirror this solid about the X axis
+        """Mirror this solid about the X axis.
         :return a new Solid object
         """
         return self.mirror(UX)
 
     def mirrorY(self): 
-        """Mirror this solid about the Y axis
+        """Mirror this solid about the Y axis.
         :return a new Solid object
         """
         return self.mirror(UY)
 
     def mirrorZ(self): 
-        """Mirror this solid about the Z axis
+        """Mirror this solid about the Z axis.
         :return a new Solid object
         """
         return self.mirror(UZ)

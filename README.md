@@ -137,15 +137,15 @@ Redirects call to the intersection method.
 Redirects call to the difference method.
 
 <code>Solid.<b>mirrorX</b>(self)</code>  
-Mirror this solid about the X axis  
+Mirror this solid about the X axis.  
 **returns** a new Solid object  
 
 <code>Solid.<b>mirrorY</b>(self)</code>  
-Mirror this solid about the Y axis  
+Mirror this solid about the Y axis.  
 **returns** a new Solid object  
 
 <code>Solid.<b>mirrorZ</b>(self)</code>  
-Mirror this solid about the Z axis  
+Mirror this solid about the Z axis.  
 **returns** a new Solid object  
 
 <code>Solid.<b>rotateX</b>(self, a)</code>  
