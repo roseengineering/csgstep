@@ -19,7 +19,9 @@ def generate_docs(package, data=None, classname=None, text=[]):
         if k == '__dict__': continue
         if isinstance(fn, type):
             generate_docs(package, fn.__dict__, k, text)
-        elif fn.__doc__:
+        else:
+            if not fn.__doc__:
+                continue
             if isinstance(fn, property):
                 text.append(f'<code>{classname}.<b>{k}</b></code>') # property
             else:

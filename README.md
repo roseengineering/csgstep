@@ -56,41 +56,54 @@ I also added a new extrude method called spline_extrude.  It takes a list of poi
 <code>csgstep.<b>circle</b>(r=1)</code>  
 Create circle of given radius centered at the origin in the XY plane.  
 **r** the radius of the cylinder  
-**returns** a Solid object of the 2D circle  
+**returns** a Solid object of the 2D face  
+
+<code>csgstep.<b>circular\_arc</b>(pt1, pt2, pt3)</code>  
+Create an arc of circle defined by three points  
+**pt1** 3D start point  
+**pt2** 3D point on arc of circle  
+**pt3** 3D end point  
+**returns** a Wire object  
 
 <code>csgstep.<b>cube</b>(s=1, center=False)</code>  
 Create cube of given size in the z-axis.  
 **s** the length of the sides of the cube as a real or 3D vector  
 **center** if true center the cube at the origin, otherwise lowest edge is at the origin  
-**returns** a Solid instance of the cube  
+**returns** a Solid object of the 3D shape  
 
 <code>csgstep.<b>cylinder</b>(r=1, h=1, center=False)</code>  
 Create cylinder of given radius and height in the z-axis.  
 **h** the height of the cylinder  
 **r** the radius of the cylinder  
 **center** if true center the cylinder on the z-axis, otherwise base is at the origin  
-**returns** a Solid instance of the cylinder  
+**returns** a Solid object of the 3D shape  
 
 <code>csgstep.<b>load\_step</b>(filename)</code>  
 Load the given STEP File.  
 **filename** the path of the STEP file  
-**returns** a Solid object of the read STEP file  
+**returns** a Solid object of the 3D shape  
 
 <code>csgstep.<b>polygon</b>(points)</code>  
 Create polygon of from 2D points in the XY plane.  
 **points** the points of the polygon in path order  
-**returns** a Solid object of the 2D polygon  
+**returns** a Solid object of the 2D face  
+
+<code>csgstep.<b>segment</b>(pt1, pt2)</code>  
+Create a line segment between two points  
+**pt1** 3D start point  
+**pt2** 3D end point  
+**returns** a Wire object  
 
 <code>csgstep.<b>sphere</b>(r=1)</code>  
 Create sphere of given radius centered at the origin.  
 **r** the radius of the sphere  
-**returns** a Solid instance of the sphere  
+**returns** a Solid object of the 3D shape  
 
 <code>csgstep.<b>square</b>(s=1, center=False)</code>  
 Create square of given size in the XY plane.  
 **s** the length of the sides of the square as a real or 2D vector  
 **center** if true center the square at the origin, otherwise one edge is at the origin  
-**returns** a Solid object of the 2D square  
+**returns** a Solid object of the 2D face  
 
 <code>class csgstep.<b>Solid</b>(self, shape=None)</code>  
 Instantiate Solid class with a TopoDS\_Shape object.  
@@ -99,16 +112,16 @@ Instantiate Solid class with a TopoDS\_Shape object.
 Instances of the <code>csgstep.<b>Solid</b></code> class have the following methods:   
 
 <code>Solid.<b>shape</b></code>
-Return the TopoDS\_Shape object that this object wraps.  
+Return the TopoDS\_Shape object that this Solid object wraps.  
 **returns** the underlying TopoDS\_Shape object  
 
 <code>Solid.<b>write\_step</b>(self, filename, schema='AP203')</code>  
-Write this object to a STEP file.  
+Write this solid to a STEP file.  
 **filename** name of STEP output file  
 **schema** name of STEP output schema, defaults to AP203  
 
 <code>Solid.<b>write\_stl</b>(self, filename, mode='ascii', linear\_deflection=0.5, angular\_deflection=0.25)</code>  
-Write this object to a STL file.  
+Write this solid to a STL file.  
 **filename** name of STL output file  
 **mode** mode of STL file, whether ascii or binary  
 **linear\_deflection** linear deflection value  
@@ -124,112 +137,139 @@ Redirects call to the intersection method.
 Redirects call to the difference method.
 
 <code>Solid.<b>mirrorX</b>(self)</code>  
-Mirror this object about the X axis  
+Mirror this solid about the X axis  
 **returns** a new Solid object  
 
 <code>Solid.<b>mirrorY</b>(self)</code>  
-Mirror this object about the Y axis  
+Mirror this solid about the Y axis  
 **returns** a new Solid object  
 
 <code>Solid.<b>mirrorZ</b>(self)</code>  
-Mirror this object about the Z axis  
+Mirror this solid about the Z axis  
 **returns** a new Solid object  
 
 <code>Solid.<b>rotateX</b>(self, a)</code>  
-Rotate this object around the X axis by given angle.  
+Rotate this solid around the X axis by given angle.  
 **a** the angle to rotate by  
 **returns** a new Solid object  
 
 <code>Solid.<b>rotateY</b>(self, a)</code>  
-Rotate this object around the Y axis by given angle.  
+Rotate this solid around the Y axis by given angle.  
 **a** the angle to rotate by  
 **returns** a new Solid object  
 
 <code>Solid.<b>rotateZ</b>(self, a)</code>  
-Rotate this object around the Z axis by given angle.  
+Rotate this solid around the Z axis by given angle.  
 **a** the angle to rotate by  
 **returns** a new Solid object  
 
 <code>Solid.<b>translateX</b>(self, v)</code>  
-Translate this object in the X direction by given amount.  
+Translate this solid in the X direction by given amount.  
 **v** the amount to translate object by  
 **returns** a new Solid object  
 
 <code>Solid.<b>translateY</b>(self, v)</code>  
-Translate this object in the Y direction by given amount.  
+Translate this solid in the Y direction by given amount.  
 **v** the amount to translate object by  
 **returns** a new Solid object  
 
 <code>Solid.<b>translateZ</b>(self, v)</code>  
-Translate this object in the Z direction by given amount.  
+Translate this solid in the Z direction by given amount.  
 **v** the amount to translate object by  
 **returns** a new Solid object  
 
 <code>Solid.<b>union</b>(self, solid)</code>  
-Union this object with another Solid object.
+Union this solid with another Solid object.
 The method uses BOPAlgo\_MakerVolume() to perform the union.  
 **solid** Solid object to merge with  
 **returns** a new Solid object  
 
 <code>Solid.<b>intersection</b>(self, solid)</code>  
-Intersect this object with another Solid object.  
+Intersect this solid with another Solid object.  
 **solid** Solid object to intersect with  
 **returns** a new Solid object  
 
 <code>Solid.<b>difference</b>(self, solid)</code>  
-Cut another Solid object from this object.  
+Cut another solid from this Solid object.  
 **solid** Solid object to cut with  
 **returns** a new Solid object  
 
 <code>Solid.<b>fuse</b>(self, solid)</code>  
-Fuse this object with another Solid object.
+Fuse this solid with another Solid object.
 The method uses BRepAlgoAPI\_Fuse() to perform the union.  
 **solid** Solid object to fuse together with  
 **returns** a new Solid object  
 
 <code>Solid.<b>mirror</b>(self, v)</code>  
-Mirror this object about the given axis.  
+Mirror this solid about the given axis.  
 **v** 3D vector to mirror object about  
 **returns** a new Solid object  
 
 <code>Solid.<b>translate</b>(self, v)</code>  
-Translate this object by the given 3D vector.  
+Translate this solid by the given 3D vector.  
 **v** 3D vector to translate object with  
 **returns** a new Solid object  
 
 <code>Solid.<b>rotate</b>(self, a, v)</code>  
-Rotate this object around the given 3D vector by the given angle.  
+Rotate this solid around the given 3D vector by the given angle.  
 **a** angle to rotate object  
 **v** 3D vector to rotate object around  
 **returns** a new Solid object  
 
 <code>Solid.<b>scale</b>(self, v)</code>  
-Scale this object by the given factor.  
+Scale this solid by the given factor.  
 **v** the factor to scale, given as a real or 3D vector  
 **returns** a new Solid object  
 
 <code>Solid.<b>linear\_extrude</b>(self, v)</code>  
-Linear extrude this object in the Z direction by given amount.  
-**v** the amount to linear extrude this object by  
+Linear extrude this 2D face in the Z direction by given amount.  
+**v** the amount to linear extrude by  
 **returns** a new Solid object  
 
 <code>Solid.<b>rotate\_extrude</b>(self, a=None)</code>  
-Rotate extrude this object around the Z axis by given angle.
+Rotate extrude this 2D face around the Z axis by given angle.
 The object will be rotated around the X axis by 90 degrees before being extruded.  
-**a** the angle to rotate extrude this object by, defaults to 360 degrees  
+**a** the angle to rotate extrude by, defaults to 360 degrees  
 **returns** a new Solid object  
 
 <code>Solid.<b>spline\_extrude</b>(self, points)</code>  
-Spline extrude this object along a cubic spline given by 3D points.  
+Spline extrude this 2D face along a cubic spline given by 3D points.  
 **points** the 3D points to create the cubic spline from   
 **returns** a new Solid object  
 
 <code>Solid.<b>helix\_extrude</b>(self, r, h, pitch, center=False)</code>  
-Helix extrude this object by a given radius, height and pitch.  
+Helix extrude this 2D face by a given radius, height and pitch.  
 **radius** the radius of the helix  
 **height** the height of the helix  
 **pitch** the pitch of the helix  
 **center** if true center the helix on the z-axis, otherwise base is at the origin  
 **returns** a new Solid object  
+
+<code>class csgstep.<b>Wire</b>(self, shape=None)</code>  
+Instantiate Wire class with a TopoDS\_Shape object.  
+**shape** the TopoDS\_Shape object to wrap the instantiated class around  
+
+Instances of the <code>csgstep.<b>Wire</b></code> class have the following methods:   
+
+<code>Wire.<b>shape</b></code>
+Return the TopoDS\_Shape object that this Wire object wraps.  
+**returns** the underlying TopoDS\_Shape object  
+
+<code>Wire.<b>\_\_add\_\_</b>(self, solid)</code>  
+Redirects call to the add method.
+
+<code>Wire.<b>add</b>(self, wire)</code>  
+add this wire to another Wire object.  
+**wire** Wire object to add  
+**returns** a new Wire object  
+
+<code>Wire.<b>mirror</b>(self, v)</code>  
+Mirror this wire about the given axis.  
+**v** 3D vector to mirror wire about  
+**returns** a new Wire object  
+
+<code>Wire.<b>face</b>(self)</code>  
+Create a face from the Wire object.  
+**returns** a Solid object of the 2D face  
 
 
