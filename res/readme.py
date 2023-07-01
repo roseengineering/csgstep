@@ -11,8 +11,7 @@ def generate_docs(package, data=None, classname=None, text=[]):
     if data is None:
         __import__(package)
         mod = sys.modules[package]
-        fn = lambda d: f'|{d}' if d[0].isupper() else d
-        data = { k: getattr(mod, k) for k in sorted(dir(mod), key=fn) if k[0] != '_' }
+        data = { k:v for k,v in mod.__dict__.items() if k[0] != '_' }
     for k, fn in data.items():
         if k == '__module__': continue
         if k == '__weakref__': continue

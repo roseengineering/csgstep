@@ -53,22 +53,20 @@ I also added a new extrude method called spline_extrude.  It takes a list of poi
 
 # csgstep API
 
-<code>csgstep.<b>circle</b>(r=1)</code>  
-Create a circle of given radius centered at the origin in the XY plane.  
-**r** the radius of the circle  
-**returns** a Solid object of the 2D face  
-
-<code>csgstep.<b>circular\_arc</b>(pt1, pt2, pt3)</code>  
-Create an arc of circle defined by three points.  
-**pt1** the 3D start point  
-**pt2** the 3D point on arc of circle  
-**pt3** the 3D end point  
-**returns** a Wire object  
+<code>csgstep.<b>load\_step</b>(filename)</code>  
+Load the given STEP File.  
+**filename** the path of the STEP file  
+**returns** a Solid object of the 3D shape  
 
 <code>csgstep.<b>cube</b>(s=1, center=False)</code>  
 Create a cube of given size in the z-axis.  
 **s** the length of the sides of the cube as a real or 3D vector  
 **center** if true center the cube at the origin, otherwise the lowest edge is at the origin  
+**returns** a Solid object of the 3D shape  
+
+<code>csgstep.<b>sphere</b>(r=1)</code>  
+Create a sphere of given radius centered at the origin.  
+**r** the radius of the sphere  
 **returns** a Solid object of the 3D shape  
 
 <code>csgstep.<b>cylinder</b>(r=1, h=1, center=False)</code>  
@@ -78,31 +76,20 @@ Create a cylinder of given radius and height in the z-axis.
 **center** if true center the cylinder on the z-axis, otherwise the base is at the origin  
 **returns** a Solid object of the 3D shape  
 
-<code>csgstep.<b>load\_step</b>(filename)</code>  
-Load the given STEP File.  
-**filename** the path of the STEP file  
-**returns** a Solid object of the 3D shape  
-
-<code>csgstep.<b>polygon</b>(points)</code>  
-Create a polygon from 2D points in the XY plane.  
-**points** the points of the polygon in path order  
+<code>csgstep.<b>circle</b>(r=1)</code>  
+Create a circle of given radius centered at the origin in the XY plane.  
+**r** the radius of the circle  
 **returns** a Solid object of the 2D face  
-
-<code>csgstep.<b>segment</b>(pt1, pt2)</code>  
-Create a line segment between two points.  
-**pt1** the 3D start point  
-**pt2** the 3D end point  
-**returns** a Wire object  
-
-<code>csgstep.<b>sphere</b>(r=1)</code>  
-Create a sphere of given radius centered at the origin.  
-**r** the radius of the sphere  
-**returns** a Solid object of the 3D shape  
 
 <code>csgstep.<b>square</b>(s=1, center=False)</code>  
 Create a square of given size in the XY plane.  
 **s** the length of the sides of the square as a real or 2D vector  
 **center** if true center the square at the origin, otherwise one edge is at the origin  
+**returns** a Solid object of the 2D face  
+
+<code>csgstep.<b>polygon</b>(points)</code>  
+Create a polygon from 2D points in the XY plane.  
+**points** the points of the polygon in path order  
 **returns** a Solid object of the 2D face  
 
 <code>class csgstep.<b>Solid</b>(self, shape=None)</code>  
@@ -242,6 +229,19 @@ Helix extrude this 2D face by a given radius, height and pitch.
 Fillet edges of the solid by the given radius.  
 **radius** the radius to fillet edges by  
 **returns** a new Solid object  
+
+<code>csgstep.<b>segment</b>(pt1, pt2)</code>  
+Create a line segment between two points.  
+**pt1** the 3D start point  
+**pt2** the 3D end point  
+**returns** a Wire object  
+
+<code>csgstep.<b>circular\_arc</b>(pt1, pt2, pt3)</code>  
+Create an arc of circle defined by three points.  
+**pt1** the 3D start point  
+**pt2** the 3D point on arc of circle  
+**pt3** the 3D end point  
+**returns** a Wire object  
 
 <code>class csgstep.<b>Wire</b>(self, shape=None)</code>  
 Instantiate Wire class with a TopoDS\_Shape object.  

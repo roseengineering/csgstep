@@ -267,8 +267,6 @@ class Solid:
         """
         return self.translate(v * np.array(UZ))
 
-    ###
-
     def union(self, solid):
         """Union this solid with another Solid object.
         :param solid Solid object to merge with
