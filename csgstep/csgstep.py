@@ -145,75 +145,6 @@ def square(s=1, center=False):
     return polygon(points - p)
 
 
-def segment(pt1, pt2):
-    """Create a line segment between two points.
-    :param pt1 3D start point
-    :param pt2 3D end point
-    :return a Wire object
-    """
-    return Wire(BRepBuilderAPI_MakeEdge(gp_Pnt(*pt1), gp_Pnt(*pt2)).Shape())
-
-
-def circular_arc(pt1, pt2, pt3):
-    """Create an arc of circle defined by three points.
-    :param pt1 3D start point
-    :param pt2 3D point on arc of circle
-    :param pt3 3D end point
-    :return a Wire object
-    """
-    seg = GC_MakeArcOfCircle(gp_Pnt(*pt1), gp_Pnt(*pt2), gp_Pnt(*pt3))
-    assert seg.IsDone()
-    return Wire(BRepBuilderAPI_MakeEdge(seg.Value()).Shape())
-
-
-class Wire:
-    def __init__(self, shape=None):
-        """Instantiate Wire class with a TopoDS_Shape object.
-        :param shape the TopoDS_Shape object to wrap the instantiated class around
-        """
-        self._shape = shape 
-
-    @property
-    def shape(self):
-        """Return the TopoDS_Shape object that this Wire object wraps.
-        :return the underlying TopoDS_Shape object 
-        """
-        return self._shape
-
-    def __add__(self, solid):
-        """Redirects call to the add method.
-        """
-        return self.add(solid)
-
-    def add(self, wire):
-        """Add this wire to another Wire object.
-        :param wire Wire object to add
-        :return a new Wire object
-        """
-        wb = BRepBuilderAPI_MakeWire()
-        if self._shape is not None:
-            wb.Add(self._shape)
-        wb.Add(wire.shape)
-        return Wire(wb.Wire())
-
-    def mirror(self, v):
-        """Mirror this wire about the given axis.
-        :param v 3D vector to mirror wire about
-        :return a new Wire object
-        """
-        trns = gp_Trsf()
-        axis = gp_Ax1(gp_Pnt(0,0,0), gp_Dir(*v))
-        trns.SetMirror(axis)
-        return Wire(BRepBuilderAPI_Transform(self._shape, trns).Shape())
-
-    def face(self):
-        """
-        Create a 2D face from the Wire object.
-        :return a Solid object of the 2D face
-        """
-        return Solid(BRepBuilderAPI_MakeFace(self._shape).Shape())
-
-
 class Solid:
     def __init__(self, shape=None):
         """Instantiate Solid class with a TopoDS_Shape object.
@@ -476,5 +407,74 @@ class Solid:
             fillet.Add(r, explorer.Current())
             explorer.Next()
         return Solid(fillet.Shape())
+
+
+def segment(pt1, pt2):
+    """Create a line segment between two points.
+    :param pt1 3D start point
+    :param pt2 3D end point
+    :return a Wire object
+    """
+    return Wire(BRepBuilderAPI_MakeEdge(gp_Pnt(*pt1), gp_Pnt(*pt2)).Shape())
+
+
+def circular_arc(pt1, pt2, pt3):
+    """Create an arc of circle defined by three points.
+    :param pt1 3D start point
+    :param pt2 3D point on arc of circle
+    :param pt3 3D end point
+    :return a Wire object
+    """
+    seg = GC_MakeArcOfCircle(gp_Pnt(*pt1), gp_Pnt(*pt2), gp_Pnt(*pt3))
+    assert seg.IsDone()
+    return Wire(BRepBuilderAPI_MakeEdge(seg.Value()).Shape())
+
+
+class Wire:
+    def __init__(self, shape=None):
+        """Instantiate Wire class with a TopoDS_Shape object.
+        :param shape the TopoDS_Shape object to wrap the instantiated class around
+        """
+        self._shape = shape 
+
+    @property
+    def shape(self):
+        """Return the TopoDS_Shape object that this Wire object wraps.
+        :return the underlying TopoDS_Shape object 
+        """
+        return self._shape
+
+    def __add__(self, solid):
+        """Redirects call to the add method.
+        """
+        return self.add(solid)
+
+    def add(self, wire):
+        """Add this wire to another Wire object.
+        :param wire Wire object to add
+        :return a new Wire object
+        """
+        wb = BRepBuilderAPI_MakeWire()
+        if self._shape is not None:
+            wb.Add(self._shape)
+        wb.Add(wire.shape)
+        return Wire(wb.Wire())
+
+    def mirror(self, v):
+        """Mirror this wire about the given axis.
+        :param v 3D vector to mirror wire about
+        :return a new Wire object
+        """
+        trns = gp_Trsf()
+        axis = gp_Ax1(gp_Pnt(0,0,0), gp_Dir(*v))
+        trns.SetMirror(axis)
+        return Wire(BRepBuilderAPI_Transform(self._shape, trns).Shape())
+
+    def face(self):
+        """
+        Create a 2D face from the Wire object.
+        :return a Solid object of the 2D face
+        """
+        return Solid(BRepBuilderAPI_MakeFace(self._shape).Shape())
 
 
