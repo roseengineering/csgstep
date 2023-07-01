@@ -78,7 +78,7 @@ def load_step(filename):
 def sphere(r=1):
     """Create a sphere of given radius centered at the origin.
     :param r the radius of the sphere
-    :return a Solid object of the 3D shape
+    :return a Solid object
     """
     return Solid(BRepPrimAPI_MakeSphere(r).Shape())
 
@@ -87,7 +87,7 @@ def cube(s=1, center=False):
     """Create a cube of given size in the z-axis.
     :param s the length of the sides of the cube as a real or 3D vector
     :param center if true center the cube at the origin, otherwise the lowest edge is at the origin
-    :return a Solid object of the 3D shape
+    :return a Solid object
     """
     s = s * np.ones(3)
     p = -s / 2 if center else np.zeros(3)
@@ -99,7 +99,7 @@ def cylinder(r=1, h=1, center=False):
     :param h the height of the cylinder
     :param r the radius of the cylinder
     :param center if true center the cylinder on the z-axis, otherwise the base is at the origin
-    :return a Solid object of the 3D shape
+    :return a Solid object
     """
     p = gp_Pnt(0, 0, -h / 2 if center else 0)
     v = gp_Dir(*UZ)
@@ -110,7 +110,7 @@ def cylinder(r=1, h=1, center=False):
 def circle(r=1): 
     """Create a circle of given radius centered at the origin in the XY plane.
     :param r the radius of the circle
-    :return a Solid object of the 2D face
+    :return a Solid object
     """
     circ = gp_Circ(gp_XOY(), r)
     edge = BRepBuilderAPI_MakeEdge(circ).Edge()
@@ -121,7 +121,7 @@ def circle(r=1):
 def polygon(points):
     """Create a polygon from 2D points in the XY plane.
     :param points the points of the polygon in path order
-    :return a Solid object of the 2D face
+    :return a Solid object
     """
     poly = BRepBuilderAPI_MakePolygon()
     for x, y in points:
@@ -135,7 +135,7 @@ def square(s=1, center=False):
     """Create a square of given size in the XY plane.
     :param s the length of the sides of the square as a real or 2D vector
     :param center if true center the square at the origin, otherwise one edge is at the origin
-    :return a Solid object of the 2D face
+    :return a Solid object
     """
     s = s * np.ones(2)
     p = s / 2 if center else np.zeros(2)

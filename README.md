@@ -62,35 +62,35 @@ Load the given STEP File.
 Create a cube of given size in the z-axis.  
 **s** the length of the sides of the cube as a real or 3D vector  
 **center** if true center the cube at the origin, otherwise the lowest edge is at the origin  
-**returns** a Solid object of the 3D shape  
+**returns** a Solid object  
 
 <code>csgstep.<b>sphere</b>(r=1)</code>  
 Create a sphere of given radius centered at the origin.  
 **r** the radius of the sphere  
-**returns** a Solid object of the 3D shape  
+**returns** a Solid object  
 
 <code>csgstep.<b>cylinder</b>(r=1, h=1, center=False)</code>  
 Create a cylinder of given radius and height in the z-axis.  
 **h** the height of the cylinder  
 **r** the radius of the cylinder  
 **center** if true center the cylinder on the z-axis, otherwise the base is at the origin  
-**returns** a Solid object of the 3D shape  
+**returns** a Solid object  
 
 <code>csgstep.<b>circle</b>(r=1)</code>  
 Create a circle of given radius centered at the origin in the XY plane.  
 **r** the radius of the circle  
-**returns** a Solid object of the 2D face  
+**returns** a Solid object  
 
 <code>csgstep.<b>square</b>(s=1, center=False)</code>  
 Create a square of given size in the XY plane.  
 **s** the length of the sides of the square as a real or 2D vector  
 **center** if true center the square at the origin, otherwise one edge is at the origin  
-**returns** a Solid object of the 2D face  
+**returns** a Solid object  
 
 <code>csgstep.<b>polygon</b>(points)</code>  
 Create a polygon from 2D points in the XY plane.  
 **points** the points of the polygon in path order  
-**returns** a Solid object of the 2D face  
+**returns** a Solid object  
 
 <code>class csgstep.<b>Solid</b>(self, shape=None)</code>  
 Instantiate Solid class with a TopoDS\_Shape object.  
