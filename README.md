@@ -267,7 +267,7 @@ Mirror this wire about the given axis.
 **returns** a new Wire object  
 
 <code>Wire.<b>face</b>(self)</code>  
-Create a face from the Wire object.  
+Create a solid from the Wire object.  
 **returns** a Solid object  
 
 
