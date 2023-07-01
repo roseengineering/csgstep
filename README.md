@@ -167,17 +167,17 @@ Translate this solid in the Z direction by given amount.
 
 <code>Solid.<b>union</b>(self, solid)</code>  
 Union this solid with another Solid object.  
-**solid** Solid object to merge with  
+**solid** the Solid object to merge with  
 **returns** a new Solid object  
 
 <code>Solid.<b>intersection</b>(self, solid)</code>  
 Intersect this solid with another Solid object.  
-**solid** Solid object to intersect with  
+**solid** the Solid object to intersect with  
 **returns** a new Solid object  
 
 <code>Solid.<b>difference</b>(self, solid)</code>  
 Cut another solid from this Solid object.  
-**solid** Solid object to cut with  
+**solid** the Solid object to cut with  
 **returns** a new Solid object  
 
 <code>Solid.<b>mirror</b>(self, v)</code>  
@@ -192,7 +192,7 @@ Translate this solid by the given 3D vector.
 
 <code>Solid.<b>rotate</b>(self, a, v)</code>  
 Rotate this solid around the given 3D vector by the given angle.  
-**a** angle to rotate object  
+**a** the angle to rotate object  
 **v** the 3D vector to rotate object around  
 **returns** a new Solid object  
 
@@ -258,7 +258,7 @@ Redirects call to the add method.
 
 <code>Wire.<b>add</b>(self, wire)</code>  
 Add this wire to another Wire object.  
-**wire** Wire object to add  
+**wire** the Wire object to add  
 **returns** a new Wire object  
 
 <code>Wire.<b>mirror</b>(self, v)</code>  

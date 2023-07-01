@@ -269,7 +269,7 @@ class Solid:
 
     def union(self, solid):
         """Union this solid with another Solid object.
-        :param solid Solid object to merge with
+        :param solid the Solid object to merge with
         :return a new Solid object
         """
         # ?? return Solid(BRepAlgoAPI_Fuse(self._shape, solid.shape).Shape())
@@ -284,14 +284,14 @@ class Solid:
 
     def intersection(self, solid):
         """Intersect this solid with another Solid object.
-        :param solid Solid object to intersect with
+        :param solid the Solid object to intersect with
         :return a new Solid object
         """
         return Solid(BRepAlgoAPI_Common(self._shape, solid.shape).Shape())
 
     def difference(self, solid):
         """Cut another solid from this Solid object.
-        :param solid Solid object to cut with
+        :param solid the Solid object to cut with
         :return a new Solid object
         """
         return Solid(BRepAlgoAPI_Cut(self._shape, solid.shape).Shape())
@@ -317,7 +317,7 @@ class Solid:
 
     def rotate(self, a, v):
         """Rotate this solid around the given 3D vector by the given angle. 
-        :param a angle to rotate object
+        :param a the angle to rotate object
         :param v the 3D vector to rotate object around
         :return a new Solid object
         """
@@ -449,7 +449,7 @@ class Wire:
 
     def add(self, wire):
         """Add this wire to another Wire object.
-        :param wire Wire object to add
+        :param wire the Wire object to add
         :return a new Wire object
         """
         wb = BRepBuilderAPI_MakeWire()
