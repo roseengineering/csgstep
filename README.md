@@ -49,33 +49,33 @@ assign the result of a method, otherwise it will be lost.
 
 The rotate method here is different from the OpenSCAD rotate method.  The first argument is the angle to rotate and the second argument is the vector to rotate around.
 
-I also added a new extrude method called spline_extrude.  It takes a list of points as its only argument.  These points are converted into a cubic spline which is then used to extrude a 2D solid.  An example of spline_extrude is the helix_extrude method which creates a helix from a 2D solid.
+I also added a new extrude method called spline_extrude.  It takes a list of points as its only argument.  These points are converted into a cubic spline which is then used to extrude a solid.  An example of spline_extrude is the helix_extrude method which creates a helix from a 2D solid.
 
 # csgstep API
 
 <code>csgstep.<b>circle</b>(r=1)</code>  
-Create circle of given radius centered at the origin in the XY plane.  
-**r** the radius of the cylinder  
+Create a circle of given radius centered at the origin in the XY plane.  
+**r** the radius of the circle  
 **returns** a Solid object of the 2D face  
 
 <code>csgstep.<b>circular\_arc</b>(pt1, pt2, pt3)</code>  
-Create an arc of circle defined by three points  
+Create an arc of circle defined by three points.  
 **pt1** 3D start point  
 **pt2** 3D point on arc of circle  
 **pt3** 3D end point  
 **returns** a Wire object  
 
 <code>csgstep.<b>cube</b>(s=1, center=False)</code>  
-Create cube of given size in the z-axis.  
+Create a cube of given size in the z-axis.  
 **s** the length of the sides of the cube as a real or 3D vector  
-**center** if true center the cube at the origin, otherwise lowest edge is at the origin  
+**center** if true center the cube at the origin, otherwise the lowest edge is at the origin  
 **returns** a Solid object of the 3D shape  
 
 <code>csgstep.<b>cylinder</b>(r=1, h=1, center=False)</code>  
-Create cylinder of given radius and height in the z-axis.  
+Create a cylinder of given radius and height in the z-axis.  
 **h** the height of the cylinder  
 **r** the radius of the cylinder  
-**center** if true center the cylinder on the z-axis, otherwise base is at the origin  
+**center** if true center the cylinder on the z-axis, otherwise the base is at the origin  
 **returns** a Solid object of the 3D shape  
 
 <code>csgstep.<b>load\_step</b>(filename)</code>  
@@ -84,23 +84,23 @@ Load the given STEP File.
 **returns** a Solid object of the 3D shape  
 
 <code>csgstep.<b>polygon</b>(points)</code>  
-Create polygon of from 2D points in the XY plane.  
+Create a polygon of from 2D points in the XY plane.  
 **points** the points of the polygon in path order  
 **returns** a Solid object of the 2D face  
 
 <code>csgstep.<b>segment</b>(pt1, pt2)</code>  
-Create a line segment between two points  
+Create a line segment between two points.  
 **pt1** 3D start point  
 **pt2** 3D end point  
 **returns** a Wire object  
 
 <code>csgstep.<b>sphere</b>(r=1)</code>  
-Create sphere of given radius centered at the origin.  
+Create a sphere of given radius centered at the origin.  
 **r** the radius of the sphere  
 **returns** a Solid object of the 3D shape  
 
 <code>csgstep.<b>square</b>(s=1, center=False)</code>  
-Create square of given size in the XY plane.  
+Create a square of given size in the XY plane.  
 **s** the length of the sides of the square as a real or 2D vector  
 **center** if true center the square at the origin, otherwise one edge is at the origin  
 **returns** a Solid object of the 2D face  
@@ -267,7 +267,7 @@ Mirror this wire about the given axis.
 **returns** a new Wire object  
 
 <code>Wire.<b>face</b>(self)</code>  
-Create a face from the Wire object.  
+Create a 2D face from the Wire object.  
 **returns** a Solid object of the 2D face  
 
 

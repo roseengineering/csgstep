@@ -76,7 +76,7 @@ def load_step(filename):
 
 
 def sphere(r=1):
-    """Create sphere of given radius centered at the origin.
+    """Create a sphere of given radius centered at the origin.
     :param r the radius of the sphere
     :return a Solid object of the 3D shape
     """
@@ -84,9 +84,9 @@ def sphere(r=1):
 
 
 def cube(s=1, center=False):
-    """Create cube of given size in the z-axis.
+    """Create a cube of given size in the z-axis.
     :param s the length of the sides of the cube as a real or 3D vector
-    :param center if true center the cube at the origin, otherwise lowest edge is at the origin
+    :param center if true center the cube at the origin, otherwise the lowest edge is at the origin
     :return a Solid object of the 3D shape
     """
     s = s * np.ones(3)
@@ -95,10 +95,10 @@ def cube(s=1, center=False):
 
 
 def cylinder(r=1, h=1, center=False):
-    """Create cylinder of given radius and height in the z-axis.
+    """Create a cylinder of given radius and height in the z-axis.
     :param h the height of the cylinder
     :param r the radius of the cylinder
-    :param center if true center the cylinder on the z-axis, otherwise base is at the origin
+    :param center if true center the cylinder on the z-axis, otherwise the base is at the origin
     :return a Solid object of the 3D shape
     """
     p = gp_Pnt(0, 0, -h / 2 if center else 0)
@@ -108,8 +108,8 @@ def cylinder(r=1, h=1, center=False):
 
 
 def circle(r=1): 
-    """Create circle of given radius centered at the origin in the XY plane.
-    :param r the radius of the cylinder
+    """Create a circle of given radius centered at the origin in the XY plane.
+    :param r the radius of the circle
     :return a Solid object of the 2D face
     """
     circ = gp_Circ(gp_XOY(), r)
@@ -119,7 +119,7 @@ def circle(r=1):
 
 
 def polygon(points):
-    """Create polygon of from 2D points in the XY plane.
+    """Create a polygon of from 2D points in the XY plane.
     :param points the points of the polygon in path order
     :return a Solid object of the 2D face
     """
@@ -132,7 +132,7 @@ def polygon(points):
 
 
 def square(s=1, center=False):
-    """Create square of given size in the XY plane.
+    """Create a square of given size in the XY plane.
     :param s the length of the sides of the square as a real or 2D vector
     :param center if true center the square at the origin, otherwise one edge is at the origin
     :return a Solid object of the 2D face
@@ -146,7 +146,7 @@ def square(s=1, center=False):
 
 
 def segment(pt1, pt2):
-    """Create a line segment between two points
+    """Create a line segment between two points.
     :param pt1 3D start point
     :param pt2 3D end point
     :return a Wire object
@@ -155,7 +155,7 @@ def segment(pt1, pt2):
 
 
 def circular_arc(pt1, pt2, pt3):
-    """Create an arc of circle defined by three points
+    """Create an arc of circle defined by three points.
     :param pt1 3D start point
     :param pt2 3D point on arc of circle
     :param pt3 3D end point
@@ -208,7 +208,7 @@ class Wire:
 
     def face(self):
         """
-        Create a face from the Wire object.
+        Create a 2D face from the Wire object.
         :return a Solid object of the 2D face
         """
         return Solid(BRepBuilderAPI_MakeFace(self._shape).Shape())
