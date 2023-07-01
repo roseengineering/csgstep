@@ -106,7 +106,7 @@ The rotate method here is different from the OpenSCAD rotate method.  The first 
 
 I also added a new extrude method called spline_extrude.  It takes a list of points as its only argument.  These points are converted into a cubic spline which is then used to extrude a solid.  An example of spline_extrude is the helix_extrude method which creates a helix from a solid.
 
-# csgstep API
+## csgstep API
 
 {generate_docs('csgstep')}
 """)
