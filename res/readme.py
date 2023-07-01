@@ -100,7 +100,7 @@ To install csgstep run "pip install ." in this directory, or the equivalent.  It
 
 ## Notes
 
-All methods functions (not properties) of Solid return a new Solid object.  So remember to always 
+All method functions (not properties) of Solid return a new Solid object.  So remember to always 
 assign the result of a method, otherwise it will be lost.
 
 The rotate method here is different from the OpenSCAD rotate method.  The first argument is the angle to rotate and the second argument is the vector to rotate around.
