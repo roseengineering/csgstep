@@ -10,9 +10,7 @@ class CSGStepTestCase(unittest.TestCase):
     s = cube()
     s.write_step('/tmp/out.stp')
     s = load_step('/tmp/out.stp')
-    s.write_step('/dev/null')
     s.write_step('/dev/null', schema="AP203")
-    s.write_stl('/dev/null')
     s.write_stl('/dev/null', mode='binary')
     s.write_stl('/dev/null', linear_deflection=1, angular_deflection=0.5)
 
@@ -42,7 +40,6 @@ class CSGStepTestCase(unittest.TestCase):
     cube().difference(sphere())
     cube().union(sphere())
     cube().intersection(sphere())
-    cube().fuse(sphere())
 
   def test_transform(self):
     cube().rotateX(a=np.pi/4)
@@ -83,6 +80,25 @@ class CSGStepTestCase(unittest.TestCase):
     polygon(points).translateX(2).rotate_extrude(a=np.pi/4)
     polygon(points).spline_extrude([(0,0,0),(0,1,2),(0,2,3)])
     polygon(points).scale(.1).helix_extrude(r=8, h=5.1, pitch=1)
+
+  def test_wire(self):
+    width = 50
+    height = 70
+    thickness = 30
+    neck_radius = thickness / 4
+    neck_height = height / 10
+    p1 = (-width / 2., 0, 0)       
+    p2 = (-width / 2., -thickness / 4., 0)
+    p3 = (0, -thickness / 2., 0)
+    p4 = (width / 2., -thickness / 4., 0)
+    p5 = (width / 2., 0, 0)
+    solid = segment(p1, p2) + \
+        circular_arc(p2, p3, p4) + \
+        segment(p4, p5)
+    solid += solid.mirror([1,0,0])
+    solid = solid.face().linear_extrude(height)
+    solid = solid.fillet(thickness / 12)
+    solid += cylinder(r=neck_radius, h=neck_height).translateZ(height)
 
 
 if __name__ == "__main__":

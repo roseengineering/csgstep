@@ -340,10 +340,10 @@ class Solid:
 
     def union(self, solid):
         """Union this solid with another Solid object.
-        The method uses BOPAlgo_MakerVolume() to perform the union.
         :param solid Solid object to merge with
         :return a new Solid object
         """
+        # ?? return Solid(BRepAlgoAPI_Fuse(self._shape, solid.shape).Shape())
         shapes = TopTools_ListOfShape()
         if self._shape is not None:
             shapes.Append(self._shape)
@@ -366,14 +366,6 @@ class Solid:
         :return a new Solid object
         """
         return Solid(BRepAlgoAPI_Cut(self._shape, solid.shape).Shape())
-
-    def fuse(self, solid):
-        """Fuse this solid with another Solid object.
-        The method uses BRepAlgoAPI_Fuse() to perform the union.
-        :param solid Solid object to fuse together with
-        :return a new Solid object
-        """
-        return Solid(BRepAlgoAPI_Fuse(self._shape, solid.shape).Shape())
 
     def mirror(self, v):
         """Mirror this solid about the given axis.

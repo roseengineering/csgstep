@@ -179,8 +179,7 @@ Translate this solid in the Z direction by given amount.
 **returns** a new Solid object  
 
 <code>Solid.<b>union</b>(self, solid)</code>  
-Union this solid with another Solid object.
-The method uses BOPAlgo\_MakerVolume() to perform the union.  
+Union this solid with another Solid object.  
 **solid** Solid object to merge with  
 **returns** a new Solid object  
 
@@ -192,12 +191,6 @@ Intersect this solid with another Solid object.
 <code>Solid.<b>difference</b>(self, solid)</code>  
 Cut another solid from this Solid object.  
 **solid** Solid object to cut with  
-**returns** a new Solid object  
-
-<code>Solid.<b>fuse</b>(self, solid)</code>  
-Fuse this solid with another Solid object.
-The method uses BRepAlgoAPI\_Fuse() to perform the union.  
-**solid** Solid object to fuse together with  
 **returns** a new Solid object  
 
 <code>Solid.<b>mirror</b>(self, v)</code>  
