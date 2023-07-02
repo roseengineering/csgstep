@@ -94,24 +94,24 @@ Create a cone along the Z axis of the given base radius, top radius, and height
 **returns** a Solid object  
 
 <code>csgstep.<b>circle</b>(r=1)</code>  
-Create a circle of the given radius centered at the origin in the XY plane.  
+Create a 2D face of a circle for the given radius centered at the origin in the XY plane.  
 **r** the radius of the circle  
 **returns** a Solid object  
 
 <code>csgstep.<b>ellipse</b>(rx, ry)</code>  
-Create a ellipse of the given X radius and Y radius centered at the origin in the XY plane.  
+Create a 2D face of a ellipse for the given X radius and Y radius centered at the origin in the XY plane.  
 **rx** the radius of the ellipse in the X axis direction  
 **ry** the radius of the ellipse in the Y axis direction  
 **returns** a Solid object  
 
 <code>csgstep.<b>square</b>(s=1, center=False)</code>  
-Create a square of the given size in the XY plane.  
+Create a 2D face of a square for the given size in the XY plane.  
 **s** the length of the sides of the square as a real or 2D vector  
 **center** if true center the square at the origin, otherwise one edge is at the origin  
 **returns** a Solid object  
 
 <code>csgstep.<b>polygon</b>(points)</code>  
-Create a polygon from 2D points in the XY plane.  
+Create a 2D face of a polygon from 2D points in the XY plane.  
 **points** the points of the polygon in path order  
 **returns** a Solid object  
 
@@ -224,6 +224,16 @@ Scale this solid by the given factor.
 **v** the factor to scale, given as a real or 3D vector  
 **returns** a new Solid object  
 
+<code>Solid.<b>fillet</b>(self, r)</code>  
+Fillet all edges of the solid by the given radius.  
+**radius** the radius to fillet edges by  
+**returns** a new Solid object  
+
+<code>Solid.<b>chamfer</b>(self, d)</code>  
+Chamfer all edges of the solid by the given distance.  
+**d** the distance to chamfer edges by  
+**returns** a new Solid object  
+
 <code>Solid.<b>linear\_extrude</b>(self, v)</code>  
 Linear extrude this 2D face in the Z direction by the given amount.  
 **v** the amount to linear extrude by  
@@ -246,11 +256,6 @@ Helix extrude this 2D face by the given radius, height and pitch.
 **height** the height of the helix  
 **pitch** the pitch of the helix  
 **center** if true center the helix on the Z axis, otherwise base is at the origin  
-**returns** a new Solid object  
-
-<code>Solid.<b>fillet</b>(self, r)</code>  
-Fillet all edges of the solid by the given radius.  
-**radius** the radius to fillet edges by  
 **returns** a new Solid object  
 
 

@@ -29,7 +29,8 @@ from OCC.Core.BRepBuilderAPI import (
 
 # fillet
 # https://dev.opencascade.org/doc/refman/html/package_brepfilletapi.html
-from OCC.Core.BRepFilletAPI import BRepFilletAPI_MakeFillet
+from OCC.Core.BRepFilletAPI import (
+    BRepFilletAPI_MakeFillet, BRepFilletAPI_MakeChamfer)
 from OCC.Core.TopExp import TopExp_Explorer
 from OCC.Core.TopAbs import TopAbs_EDGE
 
@@ -135,7 +136,7 @@ def wedge(s=1, xmin=0, zmin=0, xmax=0, zmax=0):
 
 
 def circle(r=1): 
-    """Create a circle of the given radius centered at the origin in the XY plane.
+    """Create a 2D face of a circle for the given radius centered at the origin in the XY plane.
     :param r the radius of the circle
     :return a Solid object
     """
@@ -146,7 +147,7 @@ def circle(r=1):
 
 
 def ellipse(rx, ry): 
-    """Create a ellipse of the given X radius and Y radius centered at the origin in the XY plane.
+    """Create a 2D face of a ellipse for the given X radius and Y radius centered at the origin in the XY plane.
     :param rx the radius of the ellipse in the X axis direction
     :param ry the radius of the ellipse in the Y axis direction
     :return a Solid object
@@ -163,7 +164,7 @@ def ellipse(rx, ry):
 
 
 def square(s=1, center=False):
-    """Create a square of the given size in the XY plane.
+    """Create a 2D face of a square for the given size in the XY plane.
     :param s the length of the sides of the square as a real or 2D vector
     :param center if true center the square at the origin, otherwise one edge is at the origin
     :return a Solid object
@@ -177,7 +178,7 @@ def square(s=1, center=False):
 
 
 def polygon(points):
-    """Create a polygon from 2D points in the XY plane.
+    """Create a 2D face of a polygon from 2D points in the XY plane.
     :param points the points of the polygon in path order
     :return a Solid object
     """
@@ -381,6 +382,31 @@ class Solid:
             0, 0, v[2]))
         return Solid(BRepBuilderAPI_GTransform(self._shape, gtrns).Shape())
 
+    def fillet(self, r):
+        """Fillet all edges of the solid by the given radius.
+        :param radius the radius to fillet edges by
+        :return a new Solid object
+        """
+        fillet = BRepFilletAPI_MakeFillet(self._shape)
+        explorer = TopExp_Explorer(self._shape, TopAbs_EDGE)
+        while explorer.More():
+            fillet.Add(r, explorer.Current())
+            explorer.Next()
+        return Solid(fillet.Shape())
+
+    def chamfer(self, d):
+        """Chamfer all edges of the solid by the given distance.
+        :param d the distance to chamfer edges by
+        :return a new Solid object
+        """
+        chamfer = BRepFilletAPI_MakeChamfer(self._shape)
+        explorer = TopExp_Explorer(self._shape, TopAbs_EDGE)
+        while explorer.More():
+            chamfer.Add(d, explorer.Current())
+            explorer.Next()
+        return Solid(chamfer.Shape())
+
+
     def linear_extrude(self, v):
         """Linear extrude this 2D face in the Z direction by the given amount.
         :param v the amount to linear extrude by
@@ -435,17 +461,4 @@ class Solid:
         if center:
             solid = solid.translateZ(-h / 2)
         return solid
-
-    def fillet(self, r):
-        """Fillet all edges of the solid by the given radius.
-        :param radius the radius to fillet edges by
-        :return a new Solid object
-        """
-        fillet = BRepFilletAPI_MakeFillet(self._shape)
-        explorer = TopExp_Explorer(self._shape, TopAbs_EDGE)
-        while explorer.More():
-            fillet.Add(r, explorer.Current())
-            explorer.Next()
-        return Solid(fillet.Shape())
-
 
