@@ -5,8 +5,8 @@ import numpy as np
 
 # https://dev.opencascade.org/doc/refman/html/package_gp.html
 from OCC.Core.gp import (
-     gp_Pnt, gp_Vec, gp_Dir, gp_Ax1, gp_Ax2, gp_Mat,
-     gp_GTrsf, gp_Trsf, 
+     gp_Pnt, gp_Vec, gp_Dir, gp_Ax1, gp_Ax2, gp_Pln,
+     gp_GTrsf, gp_Trsf, gp_Mat,
      gp_Circ, gp_Elips,
      gp_XOY, gp_OZ)
 
@@ -27,12 +27,22 @@ from OCC.Core.BRepBuilderAPI import (
      BRepBuilderAPI_MakePolygon, BRepBuilderAPI_MakeFace,
      BRepBuilderAPI_MakeEdge, BRepBuilderAPI_MakeWire)
 
-# fillet
+# inspection
+from OCC.Core.TopExp import TopExp_Explorer
+from OCC.Core.TopAbs import TopAbs_EDGE, TopAbs_FACE
+
+# make pipe, fillet, chamfer, and draft angle
 # https://dev.opencascade.org/doc/refman/html/package_brepfilletapi.html
 from OCC.Core.BRepFilletAPI import (
     BRepFilletAPI_MakeFillet, BRepFilletAPI_MakeChamfer)
-from OCC.Core.TopExp import TopExp_Explorer
-from OCC.Core.TopAbs import TopAbs_EDGE
+from OCC.Core.BRepOffsetAPI import BRepOffsetAPI_MakePipe
+
+# draft angle
+from OCC.Core.BOPTools import BOPTools_AlgoTools3D
+from OCC.Core.BRep import BRep_Tool
+from OCC.Core.GeomAdaptor import GeomAdaptor_Surface
+from OCC.Core.GeomAbs import GeomAbs_Plane
+from OCC.Core.BRepOffsetAPI import BRepOffsetAPI_DraftAngle
 
 # splines
 # https://dev.opencascade.org/doc/refman/html/package_brepoffsetapi.html
@@ -40,7 +50,6 @@ from OCC.Core.TopAbs import TopAbs_EDGE
 # https://dev.opencascade.org/doc/refman/html/package_tcolgp.html
 from OCC.Core.TColgp import TColgp_Array1OfPnt
 from OCC.Core.GeomAPI import GeomAPI_PointsToBSpline
-from OCC.Core.BRepOffsetAPI import BRepOffsetAPI_MakePipe
 
 # union
 # https://dev.opencascade.org/doc/refman/html/package_bopalgo.html
@@ -406,6 +415,28 @@ class Solid:
             explorer.Next()
         return Solid(chamfer.Shape())
 
+    def draft(self, a):
+        """Apply a draft angle to all vertical faces of the solid
+        :param a the draft angle
+        :return a new Solid object
+        """
+        v = gp_Dir(*UZ)
+        neutral_plane = gp_Pln(gp_Pnt(0,0,0), v)
+        draft = BRepOffsetAPI_DraftAngle(self._shape)
+        explorer = TopExp_Explorer(self._shape, TopAbs_FACE)
+        while explorer.More():
+            face = explorer.Current()
+            surf = BRep_Tool.Surface(face)
+            geom = GeomAdaptor_Surface(surf)
+            if geom.GetType() == GeomAbs_Plane:
+                ex = TopExp_Explorer(face, TopAbs_EDGE)
+                normal = gp_Dir()
+                BOPTools_AlgoTools3D.GetNormalToFaceOnEdge(ex.Current(), face, normal)
+                if normal.IsNormal(v, 0):
+                    draft.Add(face, v, a, neutral_plane)
+            explorer.Next()
+        draft.Build()
+        return Solid(draft.Shape())
 
     def linear_extrude(self, v):
         """Linear extrude this 2D face in the Z direction by the given amount.

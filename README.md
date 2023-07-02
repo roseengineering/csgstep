@@ -234,6 +234,11 @@ Chamfer all edges of the solid by the given distance.
 **d** the distance to chamfer edges by  
 **returns** a new Solid object  
 
+<code>Solid.<b>draft</b>(self, a)</code>  
+Apply a draft angle to all vertical faces of the solid  
+**a** the draft angle  
+**returns** a new Solid object  
+
 <code>Solid.<b>linear\_extrude</b>(self, v)</code>  
 Linear extrude this 2D face in the Z direction by the given amount.  
 **v** the amount to linear extrude by  
