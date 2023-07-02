@@ -8,7 +8,7 @@ from OCC.Core.gp import (
      gp_Pnt, gp_Vec, gp_Dir, gp_Ax1, gp_Ax2, gp_Pln,
      gp_GTrsf, gp_Trsf, gp_Mat,
      gp_Circ, gp_Elips,
-     gp_XOY, gp_OZ)
+     gp_XOY, gp_OZ, gp_DZ, gp_Origin)
 
 # https://dev.opencascade.org/doc/refman/html/package_brepalgoapi.html
 from OCC.Core.BRepAlgoAPI import (
@@ -33,6 +33,7 @@ from OCC.Core.TopAbs import TopAbs_EDGE, TopAbs_FACE
 
 # make pipe, fillet, chamfer, and draft angle
 # https://dev.opencascade.org/doc/refman/html/package_brepfilletapi.html
+# https://dev.opencascade.org/doc/refman/html/package_brepoffsetapi.html
 from OCC.Core.BRepFilletAPI import (
     BRepFilletAPI_MakeFillet, BRepFilletAPI_MakeChamfer)
 from OCC.Core.BRepOffsetAPI import BRepOffsetAPI_MakePipe
@@ -45,7 +46,6 @@ from OCC.Core.GeomAbs import GeomAbs_Plane
 from OCC.Core.BRepOffsetAPI import BRepOffsetAPI_DraftAngle
 
 # splines
-# https://dev.opencascade.org/doc/refman/html/package_brepoffsetapi.html
 # https://dev.opencascade.org/doc/refman/html/package_geomapi.html
 # https://dev.opencascade.org/doc/refman/html/package_tcolgp.html
 from OCC.Core.TColgp import TColgp_Array1OfPnt
@@ -112,7 +112,7 @@ def cylinder(r=1, h=1, center=False):
     :return a Solid object
     """
     p = gp_Pnt(0, 0, -h / 2 if center else 0)
-    v = gp_Dir(*UZ)
+    v = gp_DZ()
     axes = gp_Ax2(p, v)
     return Solid(BRepPrimAPI_MakeCylinder(axes, r, h).Shape())
 
@@ -126,7 +126,7 @@ def cone(r1=1, r2=0, h=1, center=False):
     :return a Solid object
     """
     p = gp_Pnt(0, 0, -h / 2 if center else 0)
-    v = gp_Dir(*UZ)
+    v = gp_DZ()
     axes = gp_Ax2(p, v)
     return Solid(BRepPrimAPI_MakeCone(axes, r1, r2, h).Shape())
 
@@ -165,7 +165,7 @@ def ellipse(rx, ry):
     if rx < ry:
         rx, ry = ry, rx
         vx = gp_Dir(*UY)
-    axes = gp_Ax2(gp_Pnt(0,0,0), gp_Dir(*UZ), vx)
+    axes = gp_Ax2(gp_Origin(), gp_DZ(), vx)
     elips = gp_Elips(axes, rx, ry)
     edge = BRepBuilderAPI_MakeEdge(elips).Edge()
     wire = BRepBuilderAPI_MakeWire(edge).Wire()
@@ -354,7 +354,7 @@ class Solid:
         :return a new Solid object
         """
         trns = gp_Trsf()
-        axis = gp_Ax1(gp_Pnt(0,0,0), gp_Dir(*v))
+        axis = gp_Ax1(gp_Origin(), gp_Dir(*v))
         trns.SetMirror(axis)
         return Solid(BRepBuilderAPI_Transform(self._shape, trns).Shape())
 
@@ -374,7 +374,7 @@ class Solid:
         :return a new Solid object
         """
         trns = gp_Trsf()
-        axis = gp_Ax1(gp_Pnt(0,0,0), gp_Dir(*v))
+        axis = gp_Ax1(gp_Origin(), gp_Dir(*v))
         trns.SetRotation(axis, a);
         return Solid(BRepBuilderAPI_Transform(self._shape, trns).Shape())
 
@@ -422,8 +422,8 @@ class Solid:
         :param a the draft angle to apply
         :return a new Solid object
         """
-        v = gp_Dir(*UZ)
-        neutral_plane = gp_Pln(gp_Pnt(0,0,0), v)
+        v = gp_DZ()
+        neutral_plane = gp_Pln(gp_Origin(), v)
         draft = BRepOffsetAPI_DraftAngle(self._shape)
         explorer = TopExp_Explorer(self._shape, TopAbs_FACE)
         while explorer.More():
