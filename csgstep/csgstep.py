@@ -423,7 +423,6 @@ class Solid:
         :return a new Solid object
         """
         v = gp_Dir(*UZ)
-        tolerance = 1e-4
         neutral_plane = gp_Pln(gp_Pnt(0,0,0), v)
         draft = BRepOffsetAPI_DraftAngle(self._shape)
         explorer = TopExp_Explorer(self._shape, TopAbs_FACE)
@@ -435,7 +434,7 @@ class Solid:
                 ex = TopExp_Explorer(face, TopAbs_EDGE)
                 normal = gp_Dir()
                 BOPTools_AlgoTools3D.GetNormalToFaceOnEdge(ex.Current(), face, normal)
-                if normal.IsNormal(v, tolerance):
+                if normal.IsNormal(v, 0):
                     draft.Add(face, v, a, neutral_plane)
             explorer.Next()
         draft.Build()
