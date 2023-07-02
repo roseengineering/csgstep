@@ -235,7 +235,9 @@ Chamfer all edges of the solid by the given distance.
 **returns** a new Solid object  
 
 <code>Solid.<b>draft</b>(self, a)</code>  
-Apply a draft angle to all vertical faces of the solid  
+Apply a draft angle to all vertical faces of the solid.
+The vertical direction is used to measure the draft angle.
+The neutral plane is the XY plane at the origin.  
 **a** the draft angle  
 **returns** a new Solid object  
 

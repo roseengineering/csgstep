@@ -416,11 +416,14 @@ class Solid:
         return Solid(chamfer.Shape())
 
     def draft(self, a):
-        """Apply a draft angle to all vertical faces of the solid
+        """Apply a draft angle to all vertical faces of the solid.
+        The vertical direction is used to measure the draft angle.
+        The neutral plane is the XY plane at the origin.
         :param a the draft angle
         :return a new Solid object
         """
         v = gp_Dir(*UZ)
+        tolerance = 1e-4
         neutral_plane = gp_Pln(gp_Pnt(0,0,0), v)
         draft = BRepOffsetAPI_DraftAngle(self._shape)
         explorer = TopExp_Explorer(self._shape, TopAbs_FACE)
@@ -432,7 +435,7 @@ class Solid:
                 ex = TopExp_Explorer(face, TopAbs_EDGE)
                 normal = gp_Dir()
                 BOPTools_AlgoTools3D.GetNormalToFaceOnEdge(ex.Current(), face, normal)
-                if normal.IsNormal(v, 0):
+                if normal.IsNormal(v, tolerance):
                     draft.Add(face, v, a, neutral_plane)
             explorer.Next()
         draft.Build()
