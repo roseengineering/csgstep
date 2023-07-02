@@ -238,7 +238,7 @@ Chamfer all edges of the solid by the given distance.
 Apply a draft angle to all vertical faces of the solid.
 The vertical direction is used to measure the draft angle.
 The neutral plane is the XY plane at the origin.  
-**a** the draft angle  
+**a** the draft angle to apply  
 **returns** a new Solid object  
 
 <code>Solid.<b>linear\_extrude</b>(self, v)</code>  

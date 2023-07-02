@@ -419,7 +419,7 @@ class Solid:
         """Apply a draft angle to all vertical faces of the solid.
         The vertical direction is used to measure the draft angle.
         The neutral plane is the XY plane at the origin.
-        :param a the draft angle
+        :param a the draft angle to apply
         :return a new Solid object
         """
         v = gp_Dir(*UZ)
