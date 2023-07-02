@@ -45,7 +45,7 @@ To install csgstep run "pip install ." in this directory, or the equivalent.  It
 ## Notes
 
 All method functions (not properties) of Solid return a new Solid object.  So remember to always 
-assign the result of a method, otherwise it will be lost.
+assign the result of a method or method chain, otherwise it will be lost.
 
 The rotate method here is different from the OpenSCAD rotate method.  The first argument is the angle to rotate and the second argument is the vector to rotate around.
 
@@ -59,30 +59,30 @@ Load the given STEP File.
 **returns** a Solid object  
 
 <code>csgstep.<b>cube</b>(s=1, center=False)</code>  
-Create a cube of given size in the z-axis.  
+Create a cube of the given size.  
 **s** the length of the sides of the cube as a real or 3D vector  
-**center** if true center the cube at the origin, otherwise the lowest edge is at the origin  
+**center** if true center the cube at the origin, otherwise the lowest edge of the cube is at the origin  
 **returns** a Solid object  
 
 <code>csgstep.<b>sphere</b>(r=1)</code>  
-Create a sphere of given radius centered at the origin.  
+Create a sphere of the given radius centered at the origin.  
 **r** the radius of the sphere  
 **returns** a Solid object  
 
 <code>csgstep.<b>cylinder</b>(r=1, h=1, center=False)</code>  
-Create a cylinder of given radius and height in the z-axis.  
+Create a cylinder along the z-axis of the given radius and height  
 **h** the height of the cylinder  
 **r** the radius of the cylinder  
 **center** if true center the cylinder on the z-axis, otherwise the base is at the origin  
 **returns** a Solid object  
 
 <code>csgstep.<b>circle</b>(r=1)</code>  
-Create a circle of given radius centered at the origin in the XY plane.  
+Create a circle of the given radius centered at the origin in the XY plane.  
 **r** the radius of the circle  
 **returns** a Solid object  
 
 <code>csgstep.<b>square</b>(s=1, center=False)</code>  
-Create a square of given size in the XY plane.  
+Create a square of the given size in the XY plane.  
 **s** the length of the sides of the square as a real or 2D vector  
 **center** if true center the square at the origin, otherwise one edge is at the origin  
 **returns** a Solid object  
@@ -136,32 +136,32 @@ Mirror this solid about the Z axis.
 **returns** a new Solid object  
 
 <code>Solid.<b>rotateX</b>(self, a)</code>  
-Rotate this solid around the X axis by given angle.  
+Rotate this solid around the X axis by the given angle.  
 **a** the angle to rotate by  
 **returns** a new Solid object  
 
 <code>Solid.<b>rotateY</b>(self, a)</code>  
-Rotate this solid around the Y axis by given angle.  
+Rotate this solid around the Y axis by the given angle.  
 **a** the angle to rotate by  
 **returns** a new Solid object  
 
 <code>Solid.<b>rotateZ</b>(self, a)</code>  
-Rotate this solid around the Z axis by given angle.  
+Rotate this solid around the Z axis by the given angle.  
 **a** the angle to rotate by  
 **returns** a new Solid object  
 
 <code>Solid.<b>translateX</b>(self, v)</code>  
-Translate this solid in the X direction by given amount.  
+Translate this solid in the X direction by the given amount.  
 **v** the amount to translate object by  
 **returns** a new Solid object  
 
 <code>Solid.<b>translateY</b>(self, v)</code>  
-Translate this solid in the Y direction by given amount.  
+Translate this solid in the Y direction by the given amount.  
 **v** the amount to translate object by  
 **returns** a new Solid object  
 
 <code>Solid.<b>translateZ</b>(self, v)</code>  
-Translate this solid in the Z direction by given amount.  
+Translate this solid in the Z direction by the given amount.  
 **v** the amount to translate object by  
 **returns** a new Solid object  
 
@@ -202,12 +202,12 @@ Scale this solid by the given factor.
 **returns** a new Solid object  
 
 <code>Solid.<b>linear\_extrude</b>(self, v)</code>  
-Linear extrude this 2D face in the Z direction by given amount.  
+Linear extrude this 2D face in the Z direction by the given amount.  
 **v** the amount to linear extrude by  
 **returns** a new Solid object  
 
 <code>Solid.<b>rotate\_extrude</b>(self, a=None)</code>  
-Rotate extrude this 2D face around the Z axis by given angle.
+Rotate extrude this 2D face around the Z axis by the given angle.
 The object will be rotated around the X axis by 90 degrees before being extruded.  
 **a** the angle to rotate extrude by, defaults to 360 degrees  
 **returns** a new Solid object  
@@ -218,7 +218,7 @@ Spline extrude this 2D face along a cubic spline given by 3D points.
 **returns** a new Solid object  
 
 <code>Solid.<b>helix\_extrude</b>(self, r, h, pitch, center=False)</code>  
-Helix extrude this 2D face by a given radius, height and pitch.  
+Helix extrude this 2D face by the given radius, height and pitch.  
 **radius** the radius of the helix  
 **height** the height of the helix  
 **pitch** the pitch of the helix  
@@ -229,45 +229,5 @@ Helix extrude this 2D face by a given radius, height and pitch.
 Fillet edges of the solid by the given radius.  
 **radius** the radius to fillet edges by  
 **returns** a new Solid object  
-
-<code>csgstep.<b>segment</b>(pt1, pt2)</code>  
-Create a line segment between two points.  
-**pt1** the 3D start point  
-**pt2** the 3D end point  
-**returns** a Wire object  
-
-<code>csgstep.<b>circular\_arc</b>(pt1, pt2, pt3)</code>  
-Create an arc of circle defined by three points.  
-**pt1** the 3D start point  
-**pt2** the 3D point on arc of circle  
-**pt3** the 3D end point  
-**returns** a Wire object  
-
-<code>class csgstep.<b>Wire</b>(self, shape=None)</code>  
-Instantiate Wire class with a TopoDS\_Shape object.  
-**shape** the TopoDS\_Shape object to wrap the instantiated class around  
-
-Instances of the <code>csgstep.<b>Wire</b></code> class have the following methods:   
-
-<code>Wire.<b>shape</b></code>
-Return the TopoDS\_Shape object this Wire object wraps.  
-**returns** the underlying TopoDS\_Shape object  
-
-<code>Wire.<b>\_\_add\_\_</b>(self, solid)</code>  
-Redirects call to the add method.
-
-<code>Wire.<b>add</b>(self, wire)</code>  
-Add this wire to another Wire object.  
-**wire** the Wire object to add  
-**returns** a new Wire object  
-
-<code>Wire.<b>mirror</b>(self, v)</code>  
-Mirror this wire about the given axis.  
-**v** the 3D vector to mirror wire about  
-**returns** a new Wire object  
-
-<code>Wire.<b>face</b>(self)</code>  
-Create a solid from the Wire object.  Only solids can be extruded.  
-**returns** a Solid object  
 
 

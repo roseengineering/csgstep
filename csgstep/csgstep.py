@@ -29,10 +29,6 @@ from OCC.Core.BRepFilletAPI import BRepFilletAPI_MakeFillet
 from OCC.Core.TopExp import TopExp_Explorer
 from OCC.Core.TopAbs import TopAbs_EDGE
 
-# edges
-# https://dev.opencascade.org/doc/refman/html/package_gc.html
-from OCC.Core.GC import GC_MakeArcOfCircle
-
 # splines
 # https://dev.opencascade.org/doc/refman/html/package_brepoffsetapi.html
 # https://dev.opencascade.org/doc/refman/html/package_geomapi.html
@@ -76,7 +72,7 @@ def load_step(filename):
 
 
 def sphere(r=1):
-    """Create a sphere of given radius centered at the origin.
+    """Create a sphere of the given radius centered at the origin.
     :param r the radius of the sphere
     :return a Solid object
     """
@@ -84,9 +80,9 @@ def sphere(r=1):
 
 
 def cube(s=1, center=False):
-    """Create a cube of given size in the z-axis.
+    """Create a cube of the given size.
     :param s the length of the sides of the cube as a real or 3D vector
-    :param center if true center the cube at the origin, otherwise the lowest edge is at the origin
+    :param center if true center the cube at the origin, otherwise the lowest edge of the cube is at the origin
     :return a Solid object
     """
     s = s * np.ones(3)
@@ -95,7 +91,7 @@ def cube(s=1, center=False):
 
 
 def cylinder(r=1, h=1, center=False):
-    """Create a cylinder of given radius and height in the z-axis.
+    """Create a cylinder along the z-axis of the given radius and height
     :param h the height of the cylinder
     :param r the radius of the cylinder
     :param center if true center the cylinder on the z-axis, otherwise the base is at the origin
@@ -108,7 +104,7 @@ def cylinder(r=1, h=1, center=False):
 
 
 def circle(r=1): 
-    """Create a circle of given radius centered at the origin in the XY plane.
+    """Create a circle of the given radius centered at the origin in the XY plane.
     :param r the radius of the circle
     :return a Solid object
     """
@@ -132,7 +128,7 @@ def polygon(points):
 
 
 def square(s=1, center=False):
-    """Create a square of given size in the XY plane.
+    """Create a square of the given size in the XY plane.
     :param s the length of the sides of the square as a real or 2D vector
     :param center if true center the square at the origin, otherwise one edge is at the origin
     :return a Solid object
@@ -226,42 +222,42 @@ class Solid:
         return self.mirror(UZ)
 
     def rotateX(self, a): 
-        """Rotate this solid around the X axis by given angle.
+        """Rotate this solid around the X axis by the given angle.
         :param a the angle to rotate by
         :return a new Solid object
         """
         return self.rotate(a, UX)
 
     def rotateY(self, a): 
-        """Rotate this solid around the Y axis by given angle.
+        """Rotate this solid around the Y axis by the given angle.
         :param a the angle to rotate by
         :return a new Solid object
         """
         return self.rotate(a, UY)
 
     def rotateZ(self, a): 
-        """Rotate this solid around the Z axis by given angle.
+        """Rotate this solid around the Z axis by the given angle.
         :param a the angle to rotate by
         :return a new Solid object
         """
         return self.rotate(a, UZ)
 
     def translateX(self, v): 
-        """Translate this solid in the X direction by given amount.
+        """Translate this solid in the X direction by the given amount.
         :param v the amount to translate object by
         :return a new Solid object
         """
         return self.translate(v * np.array(UX))
 
     def translateY(self, v): 
-        """Translate this solid in the Y direction by given amount.
+        """Translate this solid in the Y direction by the given amount.
         :param v the amount to translate object by
         :return a new Solid object
         """
         return self.translate(v * np.array(UY))
 
     def translateZ(self, v): 
-        """Translate this solid in the Z direction by given amount.
+        """Translate this solid in the Z direction by the given amount.
         :param v the amount to translate object by
         :return a new Solid object
         """
@@ -340,7 +336,7 @@ class Solid:
         return Solid(BRepBuilderAPI_GTransform(self._shape, gtrns).Shape())
 
     def linear_extrude(self, v):
-        """Linear extrude this 2D face in the Z direction by given amount.
+        """Linear extrude this 2D face in the Z direction by the given amount.
         :param v the amount to linear extrude by
         :return a new Solid object
         """
@@ -348,7 +344,7 @@ class Solid:
         return Solid(BRepPrimAPI_MakePrism(self._shape, gp_Vec(*v)).Shape())
 
     def rotate_extrude(self, a=None):
-        """Rotate extrude this 2D face around the Z axis by given angle.
+        """Rotate extrude this 2D face around the Z axis by the given angle.
         The object will be rotated around the X axis by 90 degrees before being extruded.
         :param a the angle to rotate extrude by, defaults to 360 degrees
         :return a new Solid object
@@ -372,7 +368,7 @@ class Solid:
         return Solid(brep.Shape())
 
     def helix_extrude(self, r, h, pitch, center=False):
-        """Helix extrude this 2D face by a given radius, height and pitch.
+        """Helix extrude this 2D face by the given radius, height and pitch.
         :param radius the radius of the helix
         :param height the height of the helix
         :param pitch the pitch of the helix
@@ -405,74 +401,5 @@ class Solid:
             fillet.Add(r, explorer.Current())
             explorer.Next()
         return Solid(fillet.Shape())
-
-
-def segment(pt1, pt2):
-    """Create a line segment between two points.
-    :param pt1 the 3D start point
-    :param pt2 the 3D end point
-    :return a Wire object
-    """
-    return Wire(BRepBuilderAPI_MakeEdge(gp_Pnt(*pt1), gp_Pnt(*pt2)).Shape())
-
-
-def circular_arc(pt1, pt2, pt3):
-    """Create an arc of circle defined by three points.
-    :param pt1 the 3D start point
-    :param pt2 the 3D point on arc of circle
-    :param pt3 the 3D end point
-    :return a Wire object
-    """
-    seg = GC_MakeArcOfCircle(gp_Pnt(*pt1), gp_Pnt(*pt2), gp_Pnt(*pt3))
-    assert seg.IsDone()
-    return Wire(BRepBuilderAPI_MakeEdge(seg.Value()).Shape())
-
-
-class Wire:
-    def __init__(self, shape=None):
-        """Instantiate Wire class with a TopoDS_Shape object.
-        :param shape the TopoDS_Shape object to wrap the instantiated class around
-        """
-        self._shape = shape 
-
-    @property
-    def shape(self):
-        """Return the TopoDS_Shape object this Wire object wraps.
-        :return the underlying TopoDS_Shape object 
-        """
-        return self._shape
-
-    def __add__(self, solid):
-        """Redirects call to the add method.
-        """
-        return self.add(solid)
-
-    def add(self, wire):
-        """Add this wire to another Wire object.
-        :param wire the Wire object to add
-        :return a new Wire object
-        """
-        wb = BRepBuilderAPI_MakeWire()
-        if self._shape is not None:
-            wb.Add(self._shape)
-        wb.Add(wire.shape)
-        return Wire(wb.Wire())
-
-    def mirror(self, v):
-        """Mirror this wire about the given axis.
-        :param v the 3D vector to mirror wire about
-        :return a new Wire object
-        """
-        trns = gp_Trsf()
-        axis = gp_Ax1(gp_Pnt(0,0,0), gp_Dir(*v))
-        trns.SetMirror(axis)
-        return Wire(BRepBuilderAPI_Transform(self._shape, trns).Shape())
-
-    def face(self):
-        """
-        Create a solid from the Wire object.  Only solids can be extruded.
-        :return a Solid object
-        """
-        return Solid(BRepBuilderAPI_MakeFace(self._shape).Shape())
 
 
