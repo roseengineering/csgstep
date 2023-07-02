@@ -1,5 +1,7 @@
 
 from .csgstep import (
-    load_step, cube, sphere, cylinder, circle, square, polygon, 
+    load_step, sphere, cube, wedge, cylinder, cone,
+    circle, ellipse, square, polygon,
     Solid)
+
 

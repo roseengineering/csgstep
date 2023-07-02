@@ -6,7 +6,9 @@ import numpy as np
 # https://dev.opencascade.org/doc/refman/html/package_gp.html
 from OCC.Core.gp import (
      gp_Pnt, gp_Vec, gp_Dir, gp_Ax1, gp_Ax2, gp_Mat,
-     gp_GTrsf, gp_Trsf, gp_Circ, gp_XOY, gp_OZ)
+     gp_GTrsf, gp_Trsf, 
+     gp_Circ, gp_Elips,
+     gp_XOY, gp_OZ)
 
 # https://dev.opencascade.org/doc/refman/html/package_brepalgoapi.html
 from OCC.Core.BRepAlgoAPI import (
@@ -14,8 +16,10 @@ from OCC.Core.BRepAlgoAPI import (
 
 # https://dev.opencascade.org/doc/refman/html/package_brepprimapi.html
 from OCC.Core.BRepPrimAPI import (
-     BRepPrimAPI_MakeBox, BRepPrimAPI_MakeSphere, BRepPrimAPI_MakeCylinder,
-     BRepPrimAPI_MakePrism, BRepPrimAPI_MakeRevol)
+     BRepPrimAPI_MakeBox, BRepPrimAPI_MakeSphere, 
+     BRepPrimAPI_MakeCylinder, BRepPrimAPI_MakePrism, 
+     BRepPrimAPI_MakeRevol, BRepPrimAPI_MakeWedge,
+     BRepPrimAPI_MakeCone)
 
 # https://dev.opencascade.org/doc/refman/html/package_brepbuilderapi.html
 from OCC.Core.BRepBuilderAPI import (
@@ -91,16 +95,43 @@ def cube(s=1, center=False):
 
 
 def cylinder(r=1, h=1, center=False):
-    """Create a cylinder along the z-axis of the given radius and height
-    :param h the height of the cylinder
+    """Create a cylinder along the Z axis of the given radius and height
     :param r the radius of the cylinder
-    :param center if true center the cylinder on the z-axis, otherwise the base is at the origin
+    :param h the height of the cylinder
+    :param center if true center the cylinder on the Z axis, otherwise the base is at the origin
     :return a Solid object
     """
     p = gp_Pnt(0, 0, -h / 2 if center else 0)
     v = gp_Dir(*UZ)
     axes = gp_Ax2(p, v)
     return Solid(BRepPrimAPI_MakeCylinder(axes, r, h).Shape())
+
+
+def cone(r1=1, r2=0, h=1, center=False):
+    """Create a cone along the Z axis of the given base radius, top radius, and height
+    :param r1 the bottom radius of the cone
+    :param r2 the top radius of the cone
+    :param h the height of the cone
+    :param center if true center the cone on the Z axis, otherwise the base is at the origin
+    :return a Solid object
+    """
+    p = gp_Pnt(0, 0, -h / 2 if center else 0)
+    v = gp_Dir(*UZ)
+    axes = gp_Ax2(p, v)
+    return Solid(BRepPrimAPI_MakeCone(axes, r1, r2, h).Shape())
+
+
+def wedge(s=1, xmin=0, zmin=0, xmax=0, zmax=0):
+    """Create a wedge of the given size and given the face at dy.
+    :param s the length of the sides of the wedge as a real or 3D vector
+    :param xmin the minimum value of x at dy
+    :param zmin the minimum value of z at dy
+    :param xmax the maximum value of x at dy
+    :param zmax the maximum value of z at dy
+    :return a Solid object
+    """
+    s = s * np.ones(3)
+    return Solid(BRepPrimAPI_MakeWedge(s[0], s[1], s[2], xmin, zmin, xmax, zmax).Shape())
 
 
 def circle(r=1): 
@@ -114,16 +145,20 @@ def circle(r=1):
     return Solid(BRepBuilderAPI_MakeFace(wire).Shape())
 
 
-def polygon(points):
-    """Create a polygon from 2D points in the XY plane.
-    :param points the points of the polygon in path order
+def ellipse(rx, ry): 
+    """Create a ellipse of the given X radius and Y radius centered at the origin in the XY plane.
+    :param rx the radius of the ellipse in the X axis direction
+    :param ry the radius of the ellipse in the Y axis direction
     :return a Solid object
     """
-    poly = BRepBuilderAPI_MakePolygon()
-    for x, y in points:
-        poly.Add(gp_Pnt(x, y, 0))
-    poly.Close()
-    wire = poly.Wire()
+    vx = gp_Dir(*UX)
+    if rx < ry:
+        rx, ry = ry, rx
+        vx = gp_Dir(*UY)
+    axes = gp_Ax2(gp_Pnt(0,0,0), gp_Dir(*UZ), vx)
+    elips = gp_Elips(axes, rx, ry)
+    edge = BRepBuilderAPI_MakeEdge(elips).Edge()
+    wire = BRepBuilderAPI_MakeWire(edge).Wire()
     return Solid(BRepBuilderAPI_MakeFace(wire).Shape())
 
 
@@ -139,6 +174,19 @@ def square(s=1, center=False):
         [0, 0], [s[0], 0], 
         [s[0], s[1]], [0, s[1]]])
     return polygon(points - p)
+
+
+def polygon(points):
+    """Create a polygon from 2D points in the XY plane.
+    :param points the points of the polygon in path order
+    :return a Solid object
+    """
+    poly = BRepBuilderAPI_MakePolygon()
+    for x, y in points:
+        poly.Add(gp_Pnt(x, y, 0))
+    poly.Close()
+    wire = poly.Wire()
+    return Solid(BRepBuilderAPI_MakeFace(wire).Shape())
 
 
 class Solid:
@@ -185,8 +233,6 @@ class Solid:
         status = stl_exporter.Write(self._shape, filename)
         if not status:
             raise ValueError('STL write failed.')
-
-    ###
 
     def __add__(self, solid):
         """Redirects call to the union method.
@@ -349,9 +395,9 @@ class Solid:
         :param a the angle to rotate extrude by, defaults to 360 degrees
         :return a new Solid object
         """
+        a = [] if a is None else [a]
         solid = self.rotateX(np.pi / 2)
-        args = [] if a is None else [a]
-        return Solid(BRepPrimAPI_MakeRevol(solid.shape, gp_OZ(), *args).Shape())
+        return Solid(BRepPrimAPI_MakeRevol(solid.shape, gp_OZ(), *a).Shape())
 
     def spline_extrude(self, points):
         """Spline extrude this 2D face along a cubic spline given by 3D points.
@@ -372,7 +418,7 @@ class Solid:
         :param radius the radius of the helix
         :param height the height of the helix
         :param pitch the pitch of the helix
-        :param center if true center the helix on the z-axis, otherwise base is at the origin
+        :param center if true center the helix on the Z axis, otherwise base is at the origin
         :return a new Solid object
         """
         theta = np.arctan(pitch / (TAU * r))
@@ -391,7 +437,7 @@ class Solid:
         return solid
 
     def fillet(self, r):
-        """Fillet edges of the solid by the given radius.
+        """Fillet all edges of the solid by the given radius.
         :param radius the radius to fillet edges by
         :return a new Solid object
         """

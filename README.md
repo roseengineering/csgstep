@@ -58,27 +58,50 @@ Load the given STEP File.
 **filename** the path of the STEP file  
 **returns** a Solid object  
 
+<code>csgstep.<b>sphere</b>(r=1)</code>  
+Create a sphere of the given radius centered at the origin.  
+**r** the radius of the sphere  
+**returns** a Solid object  
+
 <code>csgstep.<b>cube</b>(s=1, center=False)</code>  
 Create a cube of the given size.  
 **s** the length of the sides of the cube as a real or 3D vector  
 **center** if true center the cube at the origin, otherwise the lowest edge of the cube is at the origin  
 **returns** a Solid object  
 
-<code>csgstep.<b>sphere</b>(r=1)</code>  
-Create a sphere of the given radius centered at the origin.  
-**r** the radius of the sphere  
+<code>csgstep.<b>wedge</b>(s=1, xmin=0, zmin=0, xmax=0, zmax=0)</code>  
+Create a wedge of the given size and given the face at dy.  
+**s** the length of the sides of the wedge as a real or 3D vector  
+**xmin** the minimum value of x at dy  
+**zmin** the minimum value of z at dy  
+**xmax** the maximum value of x at dy  
+**zmax** the maximum value of z at dy  
 **returns** a Solid object  
 
 <code>csgstep.<b>cylinder</b>(r=1, h=1, center=False)</code>  
-Create a cylinder along the z-axis of the given radius and height  
-**h** the height of the cylinder  
+Create a cylinder along the Z axis of the given radius and height  
 **r** the radius of the cylinder  
-**center** if true center the cylinder on the z-axis, otherwise the base is at the origin  
+**h** the height of the cylinder  
+**center** if true center the cylinder on the Z axis, otherwise the base is at the origin  
+**returns** a Solid object  
+
+<code>csgstep.<b>cone</b>(r1=1, r2=0, h=1, center=False)</code>  
+Create a cone along the Z axis of the given base radius, top radius, and height  
+**r1** the bottom radius of the cone  
+**r2** the top radius of the cone  
+**h** the height of the cone  
+**center** if true center the cone on the Z axis, otherwise the base is at the origin  
 **returns** a Solid object  
 
 <code>csgstep.<b>circle</b>(r=1)</code>  
 Create a circle of the given radius centered at the origin in the XY plane.  
 **r** the radius of the circle  
+**returns** a Solid object  
+
+<code>csgstep.<b>ellipse</b>(rx, ry)</code>  
+Create a ellipse of the given X radius and Y radius centered at the origin in the XY plane.  
+**rx** the radius of the ellipse in the X axis direction  
+**ry** the radius of the ellipse in the Y axis direction  
 **returns** a Solid object  
 
 <code>csgstep.<b>square</b>(s=1, center=False)</code>  
@@ -222,11 +245,11 @@ Helix extrude this 2D face by the given radius, height and pitch.
 **radius** the radius of the helix  
 **height** the height of the helix  
 **pitch** the pitch of the helix  
-**center** if true center the helix on the z-axis, otherwise base is at the origin  
+**center** if true center the helix on the Z axis, otherwise base is at the origin  
 **returns** a new Solid object  
 
 <code>Solid.<b>fillet</b>(self, r)</code>  
-Fillet edges of the solid by the given radius.  
+Fillet all edges of the solid by the given radius.  
 **radius** the radius to fillet edges by  
 **returns** a new Solid object  
 
