@@ -57,6 +57,10 @@ from OCC.Core.GeomAPI import GeomAPI_PointsToBSpline
 from OCC.Core.BOPAlgo import BOPAlgo_MakerVolume
 from OCC.Core.TopTools import TopTools_ListOfShape
 
+# compound shape
+from OCC.Core.BRep import BRep_Builder
+from OCC.Core.TopoDS import TopoDS_Compound
+
 # stl and step files
 from OCC.Core.Interface import Interface_Static
 from OCC.Core.STEPControl import STEPControl_Writer, STEPControl_Reader
@@ -321,10 +325,10 @@ class Solid:
 
     def union(self, solid):
         """Union this solid with another Solid object.
+        The openCASCADE BOPAlgo_MakerVolume function is used to perform the union.
         :param solid the Solid object to merge with
         :return a new Solid object
         """
-        # ?? return Solid(BRepAlgoAPI_Fuse(self._shape, solid.shape).Shape())
         shapes = TopTools_ListOfShape()
         if self._shape is not None:
             shapes.Append(self._shape)
@@ -335,18 +339,40 @@ class Solid:
         return Solid(mv.Shape())
 
     def intersection(self, solid):
-        """Intersect this solid with another Solid object.
+        """Intersect this solid with the given Solid object.
         :param solid the Solid object to intersect with
         :return a new Solid object
         """
         return Solid(BRepAlgoAPI_Common(self._shape, solid.shape).Shape())
 
     def difference(self, solid):
-        """Cut another solid from this Solid object.
+        """Cut the given Solid object from this solid.
         :param solid the Solid object to cut with
         :return a new Solid object
         """
         return Solid(BRepAlgoAPI_Cut(self._shape, solid.shape).Shape())
+
+    def fuse(self, solid):
+        """Fuse this solid with the given Solid object.
+        The openCASCADE BRepAlgoAPI_Fuse function is used to perform the fusion.
+        :param solid the Solid object to merge with
+        :return a new Solid object
+        """
+        return Solid(BRepAlgoAPI_Fuse(self._shape, solid.shape).Shape())
+
+    def compound(self, solid):
+        """Create a compound shape with this solid and the given Solid object.
+        The method creates a openCASCADE TopoDS_Compound shape from the shapes.
+        :param solid the Solid object to create a compound shape with
+        :return a new Solid object with the TopoDS_Compound shape
+        """
+        comp = TopoDS_Compound()
+        builder = BRep_Builder()
+        builder.MakeCompound(comp)
+        if self._shape is not None:
+            builder.Add(comp, self._shape)
+        builder.Add(comp, solid.shape)
+        return Solid(comp)
 
     def mirror(self, v):
         """Mirror this solid about the given axis.

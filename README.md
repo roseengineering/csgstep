@@ -189,19 +189,32 @@ Translate this solid in the Z direction by the given amount.
 **returns** a new Solid object  
 
 <code>Solid.<b>union</b>(self, solid)</code>  
-Union this solid with another Solid object.  
+Union this solid with another Solid object.
+The openCASCADE BOPAlgo\_MakerVolume function is used to perform the union.  
 **solid** the Solid object to merge with  
 **returns** a new Solid object  
 
 <code>Solid.<b>intersection</b>(self, solid)</code>  
-Intersect this solid with another Solid object.  
+Intersect this solid with the given Solid object.  
 **solid** the Solid object to intersect with  
 **returns** a new Solid object  
 
 <code>Solid.<b>difference</b>(self, solid)</code>  
-Cut another solid from this Solid object.  
+Cut the given Solid object from this solid.  
 **solid** the Solid object to cut with  
 **returns** a new Solid object  
+
+<code>Solid.<b>fuse</b>(self, solid)</code>  
+Fuse this solid with the given Solid object.
+The openCASCADE BRepAlgoAPI\_Fuse function is used to perform the fusion.  
+**solid** the Solid object to merge with  
+**returns** a new Solid object  
+
+<code>Solid.<b>compound</b>(self, solid)</code>  
+Create a compound shape with this solid and the given Solid object.
+The method creates a openCASCADE TopoDS\_Compound shape from the shapes.  
+**solid** the Solid object to create a compound shape with  
+**returns** a new Solid object with the TopoDS\_Compound shape  
 
 <code>Solid.<b>mirror</b>(self, v)</code>  
 Mirror this solid about the given axis.  

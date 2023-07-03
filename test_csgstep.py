@@ -45,6 +45,8 @@ class CSGStepTestCase(unittest.TestCase):
     polygon([[0,0], [1,1], [0,1]])
 
   def test_algo(self):
+    cube().fuse(sphere())
+    cube().compound(sphere())
     cube() - sphere()
     cube() + sphere()
     cube() * sphere()
