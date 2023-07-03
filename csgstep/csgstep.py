@@ -63,8 +63,7 @@ from OCC.Core.TopoDS import TopoDS_Compound
 
 # stl and step files
 from OCC.Core.Interface import Interface_Static
-from OCC.Core.STEPControl import STEPControl_Writer, STEPControl_Reader
-from OCC.Core.STEPControl import STEPControl_AsIs
+from OCC.Core.STEPControl import STEPControl_Writer, STEPControl_Reader, STEPControl_AsIs
 from OCC.Core.StlAPI import StlAPI_Writer
 from OCC.Core.BRepMesh import BRepMesh_IncrementalMesh
 from OCC.Core.IFSelect import IFSelect_RetDone
@@ -241,7 +240,8 @@ class Solid:
         mesh = BRepMesh_IncrementalMesh(self._shape, 
             linear_deflection, False, angular_deflection)
         mesh.Perform()
-        assert mesh.IsDone()
+        if not mesh.IsDone():
+            raise ValueError('STL meshing failed.')
         stl_exporter = StlAPI_Writer()
         stl_exporter.SetASCIIMode(mode == 'ascii')
         status = stl_exporter.Write(self._shape, filename)
