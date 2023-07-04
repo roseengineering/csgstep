@@ -85,7 +85,7 @@ Create a cylinder along the Z axis of the given radius and height
 **center** if true center the cylinder on the Z axis, otherwise the base is at the origin  
 **returns** a Solid object  
 
-<code>csgstep.<b>cone</b>(r1=1, r2=0, h=1, center=False)</code>  
+<code>csgstep.<b>cone</b>(r1=1, r2=1, h=1, center=False)</code>  
 Create a cone along the Z axis of the given base radius, top radius, and height  
 **r1** the bottom radius of the cone  
 **r2** the top radius of the cone  
@@ -98,7 +98,7 @@ Create a 2D face of a circle for the given radius centered at the origin in the 
 **r** the radius of the circle  
 **returns** a Solid object  
 
-<code>csgstep.<b>ellipse</b>(rx, ry)</code>  
+<code>csgstep.<b>ellipse</b>(rx=1, ry=1)</code>  
 Create a 2D face of a ellipse for the given X radius and Y radius centered at the origin in the XY plane.  
 **rx** the radius of the ellipse in the X axis direction  
 **ry** the radius of the ellipse in the Y axis direction  

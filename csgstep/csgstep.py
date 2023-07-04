@@ -116,7 +116,7 @@ def cylinder(r=1, h=1, center=False):
     return Solid(BRepPrimAPI_MakeCylinder(axes, r, h).Shape())
 
 
-def cone(r1=1, r2=0, h=1, center=False):
+def cone(r1=1, r2=1, h=1, center=False):
     """Create a cone along the Z axis of the given base radius, top radius, and height
     :param r1 the bottom radius of the cone
     :param r2 the top radius of the cone
@@ -124,6 +124,8 @@ def cone(r1=1, r2=0, h=1, center=False):
     :param center if true center the cone on the Z axis, otherwise the base is at the origin
     :return a Solid object
     """
+    if r1 == r2:
+        return cylinder(r=r1, h=h, center=center)
     p = gp_Pnt(0, 0, -h / 2 if center else 0)
     v = gp_DZ()
     axes = gp_Ax2(p, v)
@@ -154,12 +156,14 @@ def circle(r=1):
     return Solid(BRepBuilderAPI_MakeFace(wire).Shape())
 
 
-def ellipse(rx, ry): 
+def ellipse(rx=1, ry=1): 
     """Create a 2D face of a ellipse for the given X radius and Y radius centered at the origin in the XY plane.
     :param rx the radius of the ellipse in the X axis direction
     :param ry the radius of the ellipse in the Y axis direction
     :return a Solid object
     """
+    if rx == ry:
+        return circle(rx)
     vx = gp_Dir(*UX)
     if rx < ry:
         rx, ry = ry, rx
