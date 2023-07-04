@@ -46,7 +46,6 @@ class CSGStepTestCase(unittest.TestCase):
 
   def test_algo(self):
     cube().fuse(sphere())
-    cube().compound(sphere())
     cube() - sphere()
     cube() + sphere()
     cube() * sphere()

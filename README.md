@@ -116,14 +116,14 @@ Create a 2D face of a polygon from 2D points in the XY plane.
 **returns** a Solid object  
 
 <code>class csgstep.<b>Solid</b>(self, shape=None)</code>  
-Instantiate Solid class with a TopoDS\_Shape object.  
-**shape** the TopoDS\_Shape object to wrap the instantiated class around  
+Instantiate Solid class with a TopoDS object.  
+**shape** the TopoDS object to wrap the instantiated class around  
 
 Instances of the <code>csgstep.<b>Solid</b></code> class have the following methods:   
 
 <code>Solid.<b>shape</b></code>
-Return the TopoDS\_Shape object this Solid object wraps.  
-**returns** the underlying TopoDS\_Shape object  
+Return the TopoDS object this Solid object wraps.  
+**returns** the underlying TopoDS object  
 
 <code>Solid.<b>write\_step</b>(self, filename, schema='AP203')</code>  
 Write this solid to a STEP file.  
@@ -209,12 +209,6 @@ Fuse this solid with the given Solid object.
 The openCASCADE BRepAlgoAPI\_Fuse function is used to perform the fusion.  
 **solid** the Solid object to merge with  
 **returns** a new Solid object  
-
-<code>Solid.<b>compound</b>(self, solid)</code>  
-Create a compound shape with this solid and the given Solid object.
-The method creates a openCASCADE TopoDS\_Compound shape from the shapes.  
-**solid** the Solid object to create a compound shape with  
-**returns** a new Solid object with the TopoDS\_Compound shape  
 
 <code>Solid.<b>mirror</b>(self, v)</code>  
 Mirror this solid about the given axis.  

@@ -57,10 +57,6 @@ from OCC.Core.GeomAPI import GeomAPI_PointsToBSpline
 from OCC.Core.BOPAlgo import BOPAlgo_MakerVolume
 from OCC.Core.TopTools import TopTools_ListOfShape
 
-# compound shape
-from OCC.Core.BRep import BRep_Builder
-from OCC.Core.TopoDS import TopoDS_Compound
-
 # stl and step files
 from OCC.Core.Interface import Interface_Static
 from OCC.Core.STEPControl import STEPControl_Writer, STEPControl_Reader, STEPControl_AsIs
@@ -204,15 +200,15 @@ def polygon(points):
 
 class Solid:
     def __init__(self, shape=None):
-        """Instantiate Solid class with a TopoDS_Shape object.
-        :param shape the TopoDS_Shape object to wrap the instantiated class around
+        """Instantiate Solid class with a TopoDS object.
+        :param shape the TopoDS object to wrap the instantiated class around
         """
         self._shape = shape 
 
     @property
     def shape(self):
-        """Return the TopoDS_Shape object this Solid object wraps.
-        :return the underlying TopoDS_Shape object 
+        """Return the TopoDS object this Solid object wraps.
+        :return the underlying TopoDS object 
         """  
         return self._shape
 
@@ -359,20 +355,6 @@ class Solid:
         :return a new Solid object
         """
         return Solid(BRepAlgoAPI_Fuse(self._shape, solid.shape).Shape())
-
-    def compound(self, solid):
-        """Create a compound shape with this solid and the given Solid object.
-        The method creates a openCASCADE TopoDS_Compound shape from the shapes.
-        :param solid the Solid object to create a compound shape with
-        :return a new Solid object with the TopoDS_Compound shape
-        """
-        comp = TopoDS_Compound()
-        builder = BRep_Builder()
-        builder.MakeCompound(comp)
-        if self._shape is not None:
-            builder.Add(comp, self._shape)
-        builder.Add(comp, solid.shape)
-        return Solid(comp)
 
     def mirror(self, v):
         """Mirror this solid about the given axis.
