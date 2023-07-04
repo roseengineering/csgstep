@@ -116,7 +116,7 @@ def cylinder(r=1, h=1, center=False):
     return Solid(BRepPrimAPI_MakeCylinder(axes, r, h).Shape())
 
 
-def cone(r1=1, r2=1, h=1, center=False):
+def cone(r1=1, r2=0, h=1, center=False):
     """Create a cone along the Z axis of the given base radius, top radius, and height
     :param r1 the bottom radius of the cone
     :param r2 the top radius of the cone

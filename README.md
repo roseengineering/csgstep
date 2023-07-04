@@ -85,7 +85,7 @@ Create a cylinder along the Z axis of the given radius and height
 **center** if true center the cylinder on the Z axis, otherwise the base is at the origin  
 **returns** a Solid object  
 
-<code>csgstep.<b>cone</b>(r1=1, r2=1, h=1, center=False)</code>  
+<code>csgstep.<b>cone</b>(r1=1, r2=0, h=1, center=False)</code>  
 Create a cone along the Z axis of the given base radius, top radius, and height  
 **r1** the bottom radius of the cone  
 **r2** the top radius of the cone  
