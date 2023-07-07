@@ -57,6 +57,9 @@ class CSGStepTestCase(unittest.TestCase):
     cube() * sphere()
     cube().difference(sphere())
     cube().union(sphere())
+    cube().union(sphere(), cube())
+    cube().compound(sphere())
+    cube().compound(sphere(), cube())
     cube().intersection(sphere())
 
   def test_transform(self):

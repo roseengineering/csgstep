@@ -327,16 +327,18 @@ class Solid:
         """
         return self.translate(v * np.array(UZ))
 
-    def union(self, solid):
-        """Union this solid with another Solid object.
+    def union(self, *solids):
+        """Union this solid with the given Solid objects.
+        More than one Solid objects can be passed as arguments for unioning.
         The openCASCADE BOPAlgo_MakerVolume function is used to perform the union.
-        :param solid the Solid object to merge with
+        :param *solids the Solid objects to merge with
         :return a new Solid object
         """
         shapes = TopTools_ListOfShape()
         if self._shape is not None:
             shapes.Append(self._shape)
-        shapes.Append(solid.shape)
+        for s in solids:
+            shapes.Append(s.shape)
         mv = BOPAlgo_MakerVolume()
         mv.SetArguments(shapes)
         mv.Perform()
@@ -364,11 +366,11 @@ class Solid:
         """
         return Solid(BRepAlgoAPI_Fuse(self._shape, solid.shape).Shape())
 
-    def compound(self, *solid):
+    def compound(self, *solids):
         """Create a compound shape with this solid and the given Solid objects.
         More than one Solid objects can be passed as arguments for compounding.
         The method creates a openCASCADE TopoDS_Compound shape from the shapes.
-        :param *solid the Solid objects to create a compound shape from
+        :param *solids the Solid objects to compound with
         :return a new Solid object with the TopoDS_Compound shape
         """
         comp = TopoDS_Compound()
@@ -376,7 +378,7 @@ class Solid:
         builder.MakeCompound(comp)
         if self._shape is not None:
             builder.Add(comp, self._shape)
-        for s in solid:
+        for s in solids:
             builder.Add(comp, s.shape)
         return Solid(comp)
 

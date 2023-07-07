@@ -33,8 +33,8 @@ def generate_docs(package, data=None, classname=None, text=[]):
                     text.append(f'<code>{classname}.<b>{k}</b>{signature}</code>  ')
             inbody = True
             for ln in fn.__doc__.strip().splitlines():
-                m_param = re.search(':param +(\w+) +(.*)', ln)
-                m_return = re.search(':return +(.*)', ln)
+                m_param = re.search(':param\s+(\S+)\s+(.*)', ln)
+                m_return = re.search(':return\s+(.*)', ln)
                 if m_param or m_return:
                     if inbody: text[-1] += '  '
                     inbody = False
