@@ -210,6 +210,13 @@ The openCASCADE BRepAlgoAPI\_Fuse function is used to perform the fusion.
 **solid** the Solid object to merge with  
 **returns** a new Solid object  
 
+<code>Solid.<b>compound</b>(self, *solid)</code>  
+Create a compound shape with this solid and the given Solid objects.
+More than one Solid objects can be passed as arguments for compounding.
+The method creates a openCASCADE TopoDS\_Compound shape from the shapes.
+:param *solid the Solid objects to create a compound shape from  
+**returns** a new Solid object with the TopoDS\_Compound shape  
+
 <code>Solid.<b>mirror</b>(self, v)</code>  
 Mirror this solid about the given axis.  
 **v** the 3D vector to mirror object about  

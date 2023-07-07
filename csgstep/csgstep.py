@@ -64,6 +64,10 @@ from OCC.Core.StlAPI import StlAPI_Writer
 from OCC.Core.BRepMesh import BRepMesh_IncrementalMesh
 from OCC.Core.IFSelect import IFSelect_RetDone
 
+# compound shape
+from OCC.Core.BRep import BRep_Builder
+from OCC.Core.TopoDS import TopoDS_Compound
+
 
 TAU = 2 * np.pi
 UX  = (1.,0.,0.)
@@ -359,6 +363,22 @@ class Solid:
         :return a new Solid object
         """
         return Solid(BRepAlgoAPI_Fuse(self._shape, solid.shape).Shape())
+
+    def compound(self, *solid):
+        """Create a compound shape with this solid and the given Solid objects.
+        More than one Solid objects can be passed as arguments for compounding.
+        The method creates a openCASCADE TopoDS_Compound shape from the shapes.
+        :param *solid the Solid objects to create a compound shape from
+        :return a new Solid object with the TopoDS_Compound shape
+        """
+        comp = TopoDS_Compound()
+        builder = BRep_Builder()
+        builder.MakeCompound(comp)
+        if self._shape is not None:
+            builder.Add(comp, self._shape)
+        for s in solid:
+            builder.Add(comp, s.shape)
+        return Solid(comp)
 
     def mirror(self, v):
         """Mirror this solid about the given axis.
