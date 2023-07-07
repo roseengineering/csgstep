@@ -1,5 +1,5 @@
 
-__version__ = '0.0.4'
+__version__ = '0.0.5'
 
 import numpy as np
 
@@ -327,23 +327,6 @@ class Solid:
         """
         return self.translate(v * np.array(UZ))
 
-    def union(self, *solids):
-        """Union this solid with the given Solid objects.
-        More than one Solid objects can be passed as arguments for unioning.
-        The openCASCADE BOPAlgo_MakerVolume function is used to perform the union.
-        :param *solids the Solid objects to merge with
-        :return a new Solid object
-        """
-        shapes = TopTools_ListOfShape()
-        if self._shape is not None:
-            shapes.Append(self._shape)
-        for s in solids:
-            shapes.Append(s.shape)
-        mv = BOPAlgo_MakerVolume()
-        mv.SetArguments(shapes)
-        mv.Perform()
-        return Solid(mv.Shape())
-
     def intersection(self, solid):
         """Intersect this solid with the given Solid object.
         :param solid the Solid object to intersect with
@@ -360,15 +343,34 @@ class Solid:
 
     def fuse(self, solid):
         """Fuse this solid with the given Solid object.
-        The openCASCADE BRepAlgoAPI_Fuse function is used to perform the fusion.
+        The openCASCADE BRepAlgoAPI_Fuse function is used to perform 
+        the fusion.
         :param solid the Solid object to merge with
         :return a new Solid object
         """
         return Solid(BRepAlgoAPI_Fuse(self._shape, solid.shape).Shape())
 
+    def union(self, *solids):
+        """Union this solid with the given Solid objects.
+        More than one Solid object can be passed as arguments for
+        unioning.  The openCASCADE BOPAlgo_MakerVolume function is 
+        used to perform the union.
+        :param *solids the Solid objects to merge with
+        :return a new Solid object
+        """
+        shapes = TopTools_ListOfShape()
+        if self._shape is not None:
+            shapes.Append(self._shape)
+        for s in solids:
+            shapes.Append(s.shape)
+        mv = BOPAlgo_MakerVolume()
+        mv.SetArguments(shapes)
+        mv.Perform()
+        return Solid(mv.Shape())
+
     def compound(self, *solids):
         """Create a compound shape with this solid and the given Solid objects.
-        More than one Solid objects can be passed as arguments for compounding.
+        More than one Solid object can be passed as arguments for compounding.
         The method creates a openCASCADE TopoDS_Compound shape from the shapes.
         :param *solids the Solid objects to compound with
         :return a new Solid object with the TopoDS_Compound shape

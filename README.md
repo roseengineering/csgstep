@@ -188,13 +188,6 @@ Translate this solid in the Z direction by the given amount.
 **v** the amount to translate object by  
 **returns** a new Solid object  
 
-<code>Solid.<b>union</b>(self, *solids)</code>  
-Union this solid with the given Solid objects.
-More than one Solid objects can be passed as arguments for unioning.
-The openCASCADE BOPAlgo\_MakerVolume function is used to perform the union.  
-***solids** the Solid objects to merge with  
-**returns** a new Solid object  
-
 <code>Solid.<b>intersection</b>(self, solid)</code>  
 Intersect this solid with the given Solid object.  
 **solid** the Solid object to intersect with  
@@ -207,13 +200,22 @@ Cut the given Solid object from this solid.
 
 <code>Solid.<b>fuse</b>(self, solid)</code>  
 Fuse this solid with the given Solid object.
-The openCASCADE BRepAlgoAPI\_Fuse function is used to perform the fusion.  
+The openCASCADE BRepAlgoAPI\_Fuse function is used to perform
+the fusion.  
 **solid** the Solid object to merge with  
+**returns** a new Solid object  
+
+<code>Solid.<b>union</b>(self, *solids)</code>  
+Union this solid with the given Solid objects.
+More than one Solid object can be passed as arguments for
+unioning.  The openCASCADE BOPAlgo\_MakerVolume function is
+used to perform the union.  
+***solids** the Solid objects to merge with  
 **returns** a new Solid object  
 
 <code>Solid.<b>compound</b>(self, *solids)</code>  
 Create a compound shape with this solid and the given Solid objects.
-More than one Solid objects can be passed as arguments for compounding.
+More than one Solid object can be passed as arguments for compounding.
 The method creates a openCASCADE TopoDS\_Compound shape from the shapes.  
 ***solids** the Solid objects to compound with  
 **returns** a new Solid object with the TopoDS\_Compound shape  
