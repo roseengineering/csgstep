@@ -3,7 +3,7 @@
 
 # csgstep
 
-A constructive solid geometry python library for OpenCASCADE.  The API is based on the OpenSCAD and SolidPython API.  The library can read and write STEP files.
+A constructive solid geometry python library for OpenCASCADE.  The API is based on the OpenSCAD and SolidPython API.  The library can read and write STEP files.  It can also export STL files.
 
 ## Examples
 
