@@ -68,7 +68,6 @@ from OCC.Core.IFSelect import IFSelect_RetDone
 from OCC.Core.BRep import BRep_Builder
 from OCC.Core.TopoDS import TopoDS_Compound
 
-
 TAU = 2 * np.pi
 UX  = (1.,0.,0.)
 UY  = (0.,1.,0.)

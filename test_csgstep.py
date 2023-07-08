@@ -58,14 +58,15 @@ class CSGStepTestCase(unittest.TestCase):
     cube().difference(sphere())
     cube().union(sphere())
     cube().union(sphere(), cube())
-    cube().compound(sphere())
-    cube().compound(sphere(), cube())
     cube().intersection(sphere())
-    Solid().compound(sphere())
     Solid().union(sphere())
-    Solid().compound()
     Solid().union()
 
+  def test_compound(self):
+    Solid().compound(sphere())
+    Solid().compound()
+    cube().compound(sphere())
+    cube().compound(sphere(), cube())
 
   def test_transform(self):
     cube().rotateX(a=np.pi/4)
