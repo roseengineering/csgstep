@@ -510,6 +510,8 @@ class Solid:
 
     def helix_extrude(self, r, h, pitch, center=False):
         """Helix extrude this (2D) solid by the given radius, height and pitch.
+        The object will be rotated around the X axis by the slope of the helix
+        before being extruded.
         :param radius the radius of the helix
         :param height the height of the helix
         :param pitch the pitch of the helix

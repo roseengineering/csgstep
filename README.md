@@ -275,7 +275,9 @@ Spline extrude this (2D) solid along a cubic spline given by 3D points.
 **returns** a new Solid object  
 
 <code>Solid.<b>helix\_extrude</b>(self, r, h, pitch, center=False)</code>  
-Helix extrude this (2D) solid by the given radius, height and pitch.  
+Helix extrude this (2D) solid by the given radius, height and pitch.
+The object will be rotated around the X axis by the slope of the helix
+before being extruded.  
 **radius** the radius of the helix  
 **height** the height of the helix  
 **pitch** the pitch of the helix  
