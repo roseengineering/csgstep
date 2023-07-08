@@ -150,9 +150,9 @@ def wedge(s=1, xmin=0, zmin=0, xmax=0, zmax=0):
 
 
 def circle(r=1): 
-    """Create a 2D face of a circle for the given radius centered at the origin in the XY plane.
+    """Create a circle for the given radius centered at the origin in the XY plane.
     :param r the radius of the circle
-    :return a Solid object
+    :return a (2D) Solid object
     """
     circ = gp_Circ(gp_XOY(), r)
     edge = BRepBuilderAPI_MakeEdge(circ).Edge()
@@ -161,10 +161,10 @@ def circle(r=1):
 
 
 def ellipse(rx=1, ry=1): 
-    """Create a 2D face of a ellipse for the given X radius and Y radius centered at the origin in the XY plane.
+    """Create a ellipse for the given X radius and Y radius centered at the origin in the XY plane.
     :param rx the radius of the ellipse in the X axis direction
     :param ry the radius of the ellipse in the Y axis direction
-    :return a Solid object
+    :return a (2D) Solid object
     """
     if rx == ry:
         return circle(rx)
@@ -180,10 +180,10 @@ def ellipse(rx=1, ry=1):
 
 
 def square(s=1, center=False):
-    """Create a 2D face of a square for the given size in the XY plane.
+    """Create a square for the given size in the XY plane.
     :param s the length of the sides of the square as a real or 2D vector
     :param center if true center the square at the origin, otherwise one edge is at the origin
-    :return a Solid object
+    :return a (2D) Solid object
     """
     s = s * np.ones(2)
     p = s / 2 if center else np.zeros(2)
@@ -194,9 +194,9 @@ def square(s=1, center=False):
 
 
 def polygon(points):
-    """Create a 2D face of a polygon from 2D points in the XY plane.
+    """Create a polygon from 2D points in the XY plane.
     :param points the points of the polygon in path order
-    :return a Solid object
+    :return a (2D) Solid object
     """
     poly = BRepBuilderAPI_MakePolygon()
     for x, y in points:
@@ -428,7 +428,7 @@ class Solid:
         return Solid(BRepBuilderAPI_GTransform(self._shape, gtrns).Shape())
 
     def fillet(self, r):
-        """Fillet all edges of the solid by the given radius.
+        """Fillet all edges of this solid by the given radius.
         :param radius the radius to fillet edges by
         :return a new Solid object
         """
@@ -440,7 +440,7 @@ class Solid:
         return Solid(fillet.Shape())
 
     def chamfer(self, d):
-        """Chamfer all edges of the solid by the given distance.
+        """Chamfer all edges of this solid by the given distance.
         :param d the distance to chamfer edges by
         :return a new Solid object
         """
@@ -452,7 +452,7 @@ class Solid:
         return Solid(chamfer.Shape())
 
     def draft(self, a):
-        """Apply a draft angle to all vertical faces of the solid.
+        """Apply a draft angle to all vertical faces of this solid.
         The vertical direction is used to measure the draft angle.
         The neutral plane is the XY plane at the origin.
         :param a the draft angle to apply
@@ -477,7 +477,7 @@ class Solid:
         return Solid(draft.Shape())
 
     def linear_extrude(self, v):
-        """Linear extrude this 2D face in the Z direction by the given amount.
+        """Linear extrude this (2D) solid in the Z direction by the given amount.
         :param v the amount to linear extrude by
         :return a new Solid object
         """
@@ -485,7 +485,7 @@ class Solid:
         return Solid(BRepPrimAPI_MakePrism(self._shape, gp_Vec(*v)).Shape())
 
     def rotate_extrude(self, a=None):
-        """Rotate extrude this 2D face around the Z axis by the given angle.
+        """Rotate extrude this (2D) solid around the Z axis by the given angle.
         The object will be rotated around the X axis by 90 degrees before being extruded.
         :param a the angle to rotate extrude by, defaults to 360 degrees
         :return a new Solid object
@@ -495,7 +495,7 @@ class Solid:
         return Solid(BRepPrimAPI_MakeRevol(solid.shape, gp_OZ(), *a).Shape())
 
     def spline_extrude(self, points):
-        """Spline extrude this 2D face along a cubic spline given by 3D points.
+        """Spline extrude this (2D) solid along a cubic spline given by 3D points.
         :param points the 3D points to create the cubic spline from 
         :return a new Solid object
         """
@@ -509,7 +509,7 @@ class Solid:
         return Solid(brep.Shape())
 
     def helix_extrude(self, r, h, pitch, center=False):
-        """Helix extrude this 2D face by the given radius, height and pitch.
+        """Helix extrude this (2D) solid by the given radius, height and pitch.
         :param radius the radius of the helix
         :param height the height of the helix
         :param pitch the pitch of the helix

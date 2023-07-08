@@ -94,26 +94,26 @@ Create a cone along the Z axis of the given base radius, top radius, and height
 **returns** a Solid object  
 
 <code>csgstep.<b>circle</b>(r=1)</code>  
-Create a 2D face of a circle for the given radius centered at the origin in the XY plane.  
+Create a circle for the given radius centered at the origin in the XY plane.  
 **r** the radius of the circle  
-**returns** a Solid object  
+**returns** a (2D) Solid object  
 
 <code>csgstep.<b>ellipse</b>(rx=1, ry=1)</code>  
-Create a 2D face of a ellipse for the given X radius and Y radius centered at the origin in the XY plane.  
+Create a ellipse for the given X radius and Y radius centered at the origin in the XY plane.  
 **rx** the radius of the ellipse in the X axis direction  
 **ry** the radius of the ellipse in the Y axis direction  
-**returns** a Solid object  
+**returns** a (2D) Solid object  
 
 <code>csgstep.<b>square</b>(s=1, center=False)</code>  
-Create a 2D face of a square for the given size in the XY plane.  
+Create a square for the given size in the XY plane.  
 **s** the length of the sides of the square as a real or 2D vector  
 **center** if true center the square at the origin, otherwise one edge is at the origin  
-**returns** a Solid object  
+**returns** a (2D) Solid object  
 
 <code>csgstep.<b>polygon</b>(points)</code>  
-Create a 2D face of a polygon from 2D points in the XY plane.  
+Create a polygon from 2D points in the XY plane.  
 **points** the points of the polygon in path order  
-**returns** a Solid object  
+**returns** a (2D) Solid object  
 
 <code>class csgstep.<b>Solid</b>(self, shape=None)</code>  
 Instantiate Solid class with a TopoDS object.  
@@ -242,40 +242,40 @@ Scale this solid by the given factor.
 **returns** a new Solid object  
 
 <code>Solid.<b>fillet</b>(self, r)</code>  
-Fillet all edges of the solid by the given radius.  
+Fillet all edges of this solid by the given radius.  
 **radius** the radius to fillet edges by  
 **returns** a new Solid object  
 
 <code>Solid.<b>chamfer</b>(self, d)</code>  
-Chamfer all edges of the solid by the given distance.  
+Chamfer all edges of this solid by the given distance.  
 **d** the distance to chamfer edges by  
 **returns** a new Solid object  
 
 <code>Solid.<b>draft</b>(self, a)</code>  
-Apply a draft angle to all vertical faces of the solid.
+Apply a draft angle to all vertical faces of this solid.
 The vertical direction is used to measure the draft angle.
 The neutral plane is the XY plane at the origin.  
 **a** the draft angle to apply  
 **returns** a new Solid object  
 
 <code>Solid.<b>linear\_extrude</b>(self, v)</code>  
-Linear extrude this 2D face in the Z direction by the given amount.  
+Linear extrude this (2D) solid in the Z direction by the given amount.  
 **v** the amount to linear extrude by  
 **returns** a new Solid object  
 
 <code>Solid.<b>rotate\_extrude</b>(self, a=None)</code>  
-Rotate extrude this 2D face around the Z axis by the given angle.
+Rotate extrude this (2D) solid around the Z axis by the given angle.
 The object will be rotated around the X axis by 90 degrees before being extruded.  
 **a** the angle to rotate extrude by, defaults to 360 degrees  
 **returns** a new Solid object  
 
 <code>Solid.<b>spline\_extrude</b>(self, points)</code>  
-Spline extrude this 2D face along a cubic spline given by 3D points.  
+Spline extrude this (2D) solid along a cubic spline given by 3D points.  
 **points** the 3D points to create the cubic spline from   
 **returns** a new Solid object  
 
 <code>Solid.<b>helix\_extrude</b>(self, r, h, pitch, center=False)</code>  
-Helix extrude this 2D face by the given radius, height and pitch.  
+Helix extrude this (2D) solid by the given radius, height and pitch.  
 **radius** the radius of the helix  
 **height** the height of the helix  
 **pitch** the pitch of the helix  
