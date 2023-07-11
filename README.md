@@ -138,7 +138,7 @@ Write this solid to a STL file.
 **angular\_deflection** angular deflection value  
 
 <code>Solid.<b>\_\_add\_\_</b>(self, solid)</code>  
-Redirects call to the union method.
+Redirects call to the compound method.
 
 <code>Solid.<b>\_\_mul\_\_</b>(self, solid)</code>  
 Redirects call to the intersection method.

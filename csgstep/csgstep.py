@@ -252,9 +252,9 @@ class Solid:
             raise ValueError('STL write failed.')
 
     def __add__(self, solid):
-        """Redirects call to the union method.
+        """Redirects call to the compound method.
         """
-        return self.union(solid)
+        return self.compound(solid)
 
     def __mul__(self, solid):
         """Redirects call to the intersection method.
