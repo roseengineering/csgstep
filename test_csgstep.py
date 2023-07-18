@@ -88,7 +88,6 @@ class CSGStepTestCase(unittest.TestCase):
     s = square()
     s += s
     s = square()
-    assert(s._shape == s.shape)
 
   def test_extrudes(self):
     square().linear_extrude(2)

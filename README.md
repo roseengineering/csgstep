@@ -115,15 +115,16 @@ Create a polygon from 2D points in the XY plane.
 **points** the points of the polygon in path order  
 **returns** a (2D) Solid object  
 
-<code>class csgstep.<b>Solid</b>(self, shape=None)</code>  
+<code>class csgstep.<b>Solid</b>(self, shape=None, name=None)</code>  
 Instantiate Solid class with a TopoDS object.  
 **shape** the TopoDS object to wrap the instantiated class around  
+**name** the name of the shape  
 
 Instances of the <code>csgstep.<b>Solid</b></code> class have the following methods:   
 
-<code>Solid.<b>shape</b></code>
-Return the TopoDS object this Solid object wraps.  
-**returns** the underlying TopoDS object  
+<code>Solid.<b>name</b></code>
+The name property of the solid.
+Use to get or set the name of the solid.
 
 <code>Solid.<b>write\_step</b>(self, filename, schema='AP203')</code>  
 Write this solid to a STEP file.  

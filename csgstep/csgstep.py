@@ -206,18 +206,24 @@ def polygon(points):
 
 
 class Solid:
-    def __init__(self, shape=None):
+    def __init__(self, shape=None, name=None):
         """Instantiate Solid class with a TopoDS object.
         :param shape the TopoDS object to wrap the instantiated class around
+        :param name the name of the shape
         """
-        self._shape = shape 
+        self._shape = shape
+        self._name = name
 
     @property
-    def shape(self):
-        """Return the TopoDS object this Solid object wraps.
-        :return the underlying TopoDS object 
-        """  
-        return self._shape
+    def name(self):
+        """The name property of the solid.
+        Use to get or set the name of the solid.
+        """
+        return self._name
+
+    @name.setter
+    def name(self, value):
+        self._name = value
 
     def write_step(self, filename, schema="AP203"):
         """Write this solid to a STEP file.
@@ -331,14 +337,14 @@ class Solid:
         :param solid the Solid object to intersect with
         :return a new Solid object
         """
-        return Solid(BRepAlgoAPI_Common(self._shape, solid.shape).Shape())
+        return Solid(BRepAlgoAPI_Common(self._shape, solid._shape).Shape())
 
     def difference(self, solid):
         """Cut the given Solid object from this solid.
         :param solid the Solid object to cut with
         :return a new Solid object
         """
-        return Solid(BRepAlgoAPI_Cut(self._shape, solid.shape).Shape())
+        return Solid(BRepAlgoAPI_Cut(self._shape, solid._shape).Shape())
 
     def fuse(self, solid):
         """Fuse this solid with the given Solid object.
@@ -347,7 +353,7 @@ class Solid:
         :param solid the Solid object to merge with
         :return a new Solid object
         """
-        return Solid(BRepAlgoAPI_Fuse(self._shape, solid.shape).Shape())
+        return Solid(BRepAlgoAPI_Fuse(self._shape, solid._shape).Shape())
 
     def union(self, *solids):
         """Union this solid with the given Solid objects.
@@ -361,7 +367,7 @@ class Solid:
         if self._shape is not None:
             shapes.Append(self._shape)
         for s in solids:
-            shapes.Append(s.shape)
+            shapes.Append(s._shape)
         mv = BOPAlgo_MakerVolume()
         mv.SetArguments(shapes)
         mv.Perform()
@@ -380,7 +386,7 @@ class Solid:
         if self._shape is not None:
             builder.Add(comp, self._shape)
         for s in solids:
-            builder.Add(comp, s.shape)
+            builder.Add(comp, s._shape)
         return Solid(comp)
 
     def mirror(self, v):
@@ -489,9 +495,9 @@ class Solid:
         :param a the angle to rotate extrude by, defaults to 360 degrees
         :return a new Solid object
         """
-        a = [] if a is None else [a]
+        args = [] if a is None else [a]
         solid = self.rotateX(np.pi / 2)
-        return Solid(BRepPrimAPI_MakeRevol(solid.shape, gp_OZ(), *a).Shape())
+        return Solid(BRepPrimAPI_MakeRevol(solid._shape, gp_OZ(), *args).Shape())
 
     def spline_extrude(self, points):
         """Spline extrude this (2D) solid along a cubic spline given by 3D points.
