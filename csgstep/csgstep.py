@@ -293,21 +293,21 @@ class Solid:
 
     def rotateX(self, a): 
         """Rotate this solid around the X axis by the given angle.
-        :param a the angle to rotate by
+        :param a the angle in radians to rotate by
         :return a new Solid object
         """
         return self.rotate(a, UX)
 
     def rotateY(self, a): 
         """Rotate this solid around the Y axis by the given angle.
-        :param a the angle to rotate by
+        :param a the angle in radians to rotate by
         :return a new Solid object
         """
         return self.rotate(a, UY)
 
     def rotateZ(self, a): 
         """Rotate this solid around the Z axis by the given angle.
-        :param a the angle to rotate by
+        :param a the angle in radians to rotate by
         :return a new Solid object
         """
         return self.rotate(a, UZ)
@@ -411,7 +411,7 @@ class Solid:
 
     def rotate(self, a, v):
         """Rotate this solid around the given 3D vector by the given angle. 
-        :param a the angle to rotate object
+        :param a the angle in radians to rotate object by
         :param v the 3D vector to rotate object around
         :return a new Solid object
         """
@@ -441,7 +441,8 @@ class Solid:
         fillet = BRepFilletAPI_MakeFillet(self._shape)
         explorer = TopExp_Explorer(self._shape, TopAbs_EDGE)
         while explorer.More():
-            fillet.Add(r, explorer.Current())
+            edge = explorer.Current()
+            fillet.Add(r, edge)
             explorer.Next()
         return Solid(fillet.Shape())
 
@@ -453,7 +454,8 @@ class Solid:
         chamfer = BRepFilletAPI_MakeChamfer(self._shape)
         explorer = TopExp_Explorer(self._shape, TopAbs_EDGE)
         while explorer.More():
-            chamfer.Add(d, explorer.Current())
+            edge = explorer.Current()
+            chamfer.Add(d, edge)
             explorer.Next()
         return Solid(chamfer.Shape())
 
@@ -474,8 +476,9 @@ class Solid:
             geom = GeomAdaptor_Surface(surf)
             if geom.GetType() == GeomAbs_Plane:
                 ex = TopExp_Explorer(face, TopAbs_EDGE)
+                edge = ex.Current()
                 normal = gp_Dir()
-                BOPTools_AlgoTools3D.GetNormalToFaceOnEdge(ex.Current(), face, normal)
+                BOPTools_AlgoTools3D.GetNormalToFaceOnEdge(edge, face, normal)
                 if normal.IsNormal(v, 0):
                     draft.Add(face, v, a, neutral_plane)
             explorer.Next()
@@ -493,7 +496,7 @@ class Solid:
     def rotate_extrude(self, a=None):
         """Rotate extrude this (2D) solid around the Z axis by the given angle.
         The object will be rotated around the X axis by 90 degrees before being extruded.
-        :param a the angle to rotate extrude by, defaults to 360 degrees
+        :param a the angle in radians to rotate extrude by, defaults to 360 degrees
         :return a new Solid object
         """
         args = [] if a is None else [a]
