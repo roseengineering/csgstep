@@ -2,12 +2,14 @@
 steps:
 - id: build-tests
   name: gcr.io/cloud-builders/docker
-  args: [ 'build', '.',
-          '-t', 'us-east1-docker.pkg.dev/$PROJECT_ID/cicd/csgstep:latest', 
-          '-f', 'cloudbuild/Dockerfile' ]
+  args: [ 'build', '.', '-f', 'cloudbuild/Dockerfile', '-t', 
+          'us-east1-docker.pkg.dev/$PROJECT_ID/cicd/csgstep:latest',
+        ]
 
 - id: run-tests
-  name: 
-  args: [ 'run', 'us-east1-docker.pkg.dev/$PROJECT_ID/cicd/csgstep:latest',
-          'python', '-m', 'unittest' ]
+  name: gcr.io/cloud-builders/docker
+  args: [ 'run', 
+          'us-east1-docker.pkg.dev/$PROJECT_ID/cicd/csgstep:latest',
+          'python', '-m', 'unittest' 
+        ]
 
