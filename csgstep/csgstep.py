@@ -218,6 +218,7 @@ class Solid:
     def name(self):
         """The name property of the solid.
         Use to get or set the name of the solid.
+        (not implemented)
         """
         return self._name
 

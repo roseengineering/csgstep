@@ -125,6 +125,7 @@ Instances of the <code>csgstep.<b>Solid</b></code> class have the following meth
 <code>Solid.<b>name</b></code>
 The name property of the solid.
 Use to get or set the name of the solid.
+(not implemented)
 
 <code>Solid.<b>write\_step</b>(self, filename, schema='AP203')</code>  
 Write this solid to a STEP file.  
