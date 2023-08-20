@@ -7,5 +7,7 @@ steps:
           '-f', 'cloudbuild/Dockerfile' ]
 
 - id: run-tests
-  name: us-east1-docker.pkg.dev/$PROJECT_ID/cicd/csgstep:latest
-  args: [ '-m', 'unittest' ]
+  name: 
+  args: [ 'run', 'us-east1-docker.pkg.dev/$PROJECT_ID/cicd/csgstep:latest',
+          '-m', 'unittest' ]
+
