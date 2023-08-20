@@ -9,5 +9,5 @@ steps:
 - id: run-tests
   name: 
   args: [ 'run', 'us-east1-docker.pkg.dev/$PROJECT_ID/cicd/csgstep:latest',
-          '-m', 'unittest' ]
+          'python', '-m', 'unittest' ]
 

@@ -6,4 +6,3 @@ ADD csgstep csgstep
 ADD setup.py .
 RUN conda install -c conda-forge --file requirements.txt
 RUN pip install .
-ENTRYPOINT bash
