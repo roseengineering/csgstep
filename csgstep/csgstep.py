@@ -496,7 +496,7 @@ class Solid:
     def rotate_extrude(self, a=None):
         """Rotate extrude this (2D) solid around the Z axis by the given angle.
         The object will be rotated around the X axis by 90 degrees before being extruded.
-        :param a the angle in radians to rotate extrude by, defaults to 360 degrees
+        :param a the angle in radians to rotate extrude by, defaults to 2 * pi.
         :return a new Solid object
         """
         args = [] if a is None else [a]

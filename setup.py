@@ -1,7 +1,11 @@
 
+import re
 from distutils.core import setup
 
-exec(open('csgstep/csgstep.py').read())
+with open('csgstep/csgstep.py') as f:
+    for ln in f:
+        m = re.search("__version__ = '(\S+)'", ln)
+        if m: __version__ = m.group(1)
 
 setup(
     name='csgstep',
